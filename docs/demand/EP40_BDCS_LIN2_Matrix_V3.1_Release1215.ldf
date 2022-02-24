@@ -1,0 +1,1151 @@
+/*************************************************************************************/
+
+//                                                                                     
+
+// Description: LIN Description file created using VDE						            
+
+// Created:     12/13/2021 16:30:20
+
+// Author:      VDE
+
+//                                                                                     
+
+/*************************************************************************************/
+
+LIN_description_file;
+LIN_protocol_version = "2.1";
+LIN_language_version = "2.1";
+LIN_speed = 19.2 kbps;
+
+Nodes {
+  Master: BDCS, 5 ms, 0.1 ms ;
+  Slaves: RLS, CO2, RSCU, DGM, RATS, KS ;
+}
+
+Signals {
+  BDCS2_DGSW: 2, 0, BDCS, DGM;//DG switch天幕功能开关
+  BDCS2_DGPercentCtrl: 5, 0, BDCS, DGM;//DG Percent Control.
+  BDCS2_CatchBoltStatus: 1, 0, BDCS, KS;//Reserved
+  BDCS2_CMD_AutoWiper: 1, 0, BDCS, RLS;//Wiper Switch Auto Enabled  雨刮开关处于自动档位置
+  BDCS2_RQ_FrontWash: 1, 0, BDCS, RLS;//前洗涤激活状态
+  BDCS2_ParkPosition: 1, 0, BDCS, RLS;//雨刮处于停止位置状态
+  BDCS2_RainSensitivity: 3, 0, BDCS, RLS;//雨量灵敏度
+  BDCS2_CloseWinEnableCtrl: 1, 1, BDCS, RLS;//下雨关窗使能信号
+  BDCS2_RLS_WiperGear: 3, 0, BDCS, RLS;//雨刮开关档位
+  CDCS5_DGM_AutoSW: 2, 0, BDCS, DGM;//天幕自动调节开关
+  CDCS8_RLSeatBackrestAdjCmd: 2, 0, BDCS, RSCU;//后排左侧座椅靠背调节命令（预留）
+  TBOX4_LRSeatHeaterCmd: 3, 0, BDCS, RSCU;//后排左侧座椅加热指令
+  TBOX4_RRSeatHeaterCmd: 3, 0, BDCS, RSCU;//后排右侧座椅加热指令
+  CDCS8_LRSeatHeaterCmd: 3, 0, BDCS, RSCU;//大屏后排左侧座椅加热指令
+  CDCS8_RRSeatHeaterCmd: 3, 0, BDCS, RSCU;//大屏后排右侧座椅加热指令
+  CDCS5_DGM_IntelligentProtectionSW: 2, 0, BDCS, DGM;//天幕智能防护开关
+  BDCS2_RearSeatHeating_Configuration: 1, 0, BDCS, RSCU, RATS;//后排座椅加热功能配置
+  BDCS2_RearSeatVentilating_configuration: 1, 0, BDCS, RSCU, RATS;//后排座椅通风功能配置
+  CDCS8_RRSeatBackrestAdjCmd: 2, 0, BDCS, RSCU;//后排右侧座椅靠背调节命令（预留）
+  BDCS2_RLSeatVentCmd: 3, 0, BDCS, RSCU;//后排左侧座椅通风指令（预留）
+  BDCS2_RRSeatVentCmd: 3, 0, BDCS, RSCU;//后排右侧座椅通风指令（预留）
+  BDCS1_VehicleType: 6, 1, BDCS, KS;//Indicates the vehicle type
+  BDCS1_PowerMode: 2, 0, BDCS, RLS, CO2, RSCU;//低压电源模式
+  BDCS1_IDB3_VehicleSpd: 14, 0, BDCS, RLS, RSCU;//Vehicle Speed 车速
+  BDCS1_IDB3_VehicleSpdValid: 1, 0, BDCS, RLS, RSCU;//Vehicle Speed Status 车速有效位
+  BDCS1_AC_OutsideTempValid: 1, 0, BDCS, RLS;//室外温度值有效性
+  BDCS1_AC_OutsideTemp: 8, 0, BDCS, RLS;//室外温度值
+  BDCS1_ACU1_CrashStatus: 1, 0, BDCS, RSCU;//Crash status on CAN Bus 碰撞信号
+  BDCS1_AlarmMode: 3, 0, BDCS, CO2, RSCU;//车身防盗状态
+  BDCS1_Backlight_brightness_fb: 4, 3, BDCS, RATS;//背光灯亮度调节反馈
+  BDCS1_BacklightStatus: 1, 0, BDCS, RATS;//整车背光灯状态信号 白天、夜晚模式
+  BDCS1_TrunkLockSts: 1, 0, BDCS, CO2;//后背门锁状态（是否电动尾门，该信号均作为提示尾门是否开启）
+  DDCU1_FLDoorAjar: 2, 0, BDCS, CO2;//左前车门开闭状态
+  DDCU1_RLDoorAjar: 2, 0, BDCS, CO2;//左后车门开闭状态
+  PDCU1_FRDoorAjar: 2, 0, BDCS, CO2;//右前车门开闭状态
+  PDCU1_RRDoorAjar: 2, 0, BDCS, CO2;//右后车门开闭状态
+  DGM_ResponseError: 1, 0, DGM, BDCS;//通信错误状态反馈信号
+  DGM_IntelligentProtectionSt: 1, 0, DGM, BDCS;//智能防护开关状态
+  DGM_SWSts: 2, 0, DGM, BDCS;//开关状态反馈信号
+  DGM_overCurrent: 1, 0, DGM, BDCS;//过流故障反馈
+  DGM_AutoSWSts: 1, 0, DGM, BDCS;//天幕自动调节开关状态
+  DGM_percentSts: 5, 0, DGM, BDCS;//工作档位状态
+  DGM_AdjustedPercentage: 7, 0, DGM, BDCS;//天幕调节百分比
+  KS_ResponseError: 1, 0, KS, BDCS;//通信错误状态反馈信号
+  KS_KickDetected: 1, 0, KS, BDCS;//IndicatesKS has detected a complete kick. 触发信号
+  KS_VehicleTypeUnknown: 1, 0, KS, BDCS;//The vehicle type is unknown. The working parameters depend on the vehicle type. If the vehicle doesn’t exists the KS works with the default parameter （参数）set; 车型配置错误
+  KS_SensorStatus: 6, 0, KS, BDCS;//Indicates kick sensor currently status(状态),sensor status has 6 bits and the meaning of  7 possible values are defined,the other values are at the moment  not used .
+  RLS1_ResponseError: 1, 0, RLS, BDCS;//通信错误状态反馈信号
+  RLS1_RQ_WiperSPD: 2, 0, RLS, BDCS;//雨量传感器请求的雨刮速度.
+  RLS1_RQ_LowBeam: 1, 0, RLS, BDCS;//近光灯点亮请求
+  RLS1_Day_or_night_state: 1, 0, RLS, BDCS;//环境光线亮暗状态
+  RLS1_Fault_Rain: 1, 0, RLS, BDCS;//雨量传感器故障状态
+  RLS1_Fault_Light: 1, 0, RLS, BDCS;//灯光传感器故障状态
+  RLS1_Win_Close_Cmd: 2, 0, RLS, BDCS;//雨天关窗命令
+  RLS1_Solar_Driver: 8, 255, RLS, BDCS, DGM;//主驾侧日照辐射强度
+  RLS1_Solar_Passenger: 8, 255, RLS, BDCS, DGM;//副驾侧日照辐射强度
+  RLS1_Solar_Error: 1, 0, RLS, BDCS, DGM;//阳光传感器故障
+  RLS2_HUDBrightnessRawValue: 7, 0, RLS, BDCS;//HUD亮度值
+  RLS2_HUDBrightnessUnit: 2, 0, RLS, BDCS;//HUD亮度值精度系数
+  RLS2_Fault_HUDBrightness: 1, 0, RLS, BDCS;//HUD亮度传感器故障状态
+  RLS2_Humid: 8, 0, RLS, BDCS;//空气湿度：从0%到100%
+  RLS2_Temperature: 8, 0, RLS, BDCS;//挡风玻璃温度
+  RLS2_TempDewPoint: 11, 0, RLS, BDCS;//露点温度
+  RLS2_Humid_Temp_Error: 1, 0, RLS, BDCS;//RLS_Humid_Temp_Error RLS检测温湿度传感器错误
+  RATS1_ResponseError: 1, 0, RATS, BDCS;//通信错误状态反馈信号
+  RATS1_RLSeatBackrestAdjCmd: 2, 0, RATS, BDCS;//后排左侧座椅靠背调节命令
+  RATS1_RRSeatBackrestAdjCmd: 2, 0, RATS, BDCS;//后排右侧座椅靠背调节命令
+  RATS1_ErrorSts: 1, 0, RATS, BDCS;//RATS故障状态
+  RATS1_RLSeatHeaterCmd: 3, 0, RATS, BDCS;//后排左侧座椅加热指令
+  RATS1_RRSeatHeaterCmd: 3, 0, RATS, BDCS;//后排右侧座椅加热指令
+  RATS1_RLSeatVentCmd: 3, 0, RATS, BDCS;//后排左侧座椅通风指令（预留）
+  RATS1_RRSeatVentCmd: 3, 0, RATS, BDCS;//后排右侧座椅通风指令（预留）
+  RATS1_Voltage_errorCode: 1, 0, RATS, BDCS;//诊断信号
+  RATS1_Capsense_errorCode: 1, 0, RATS, BDCS;//诊断信号
+  RATS1_Motor_errorCode: 1, 0, RATS, BDCS;//诊断信号
+  RATS1_DFGLS_ButtonSoundRequest: 1, 0, RATS, BDCS;//按键声音提示
+  RSCU1_ResponseError: 1, 0, RSCU, BDCS;//通信错误状态反馈信号
+  RSCU1_RL_Heating_Status: 2, 0, RSCU, BDCS, RATS;//后排左侧座椅加热状态
+  RSCU1_RR_Heating_Status: 2, 0, RSCU, BDCS, RATS;//后排右侧座椅加热状态
+  RSCU1_RL_Venting_Status_Reserved: 2, 0, RSCU, BDCS, RATS;//后排左侧座椅通风状态
+  RSCU1_RR_Venting_Status: 2, 0, RSCU, BDCS, RATS;//后排右侧座椅通风状态
+  RSCU1_RLCushionNTC_Failure: 1, 0, RSCU, BDCS;//后排左侧坐垫NTC故障
+  RSCU1_RLBackrestNTC_Failure: 1, 0, RSCU, BDCS;//后排左侧靠背NTC故障
+  RSCU1_RRCushionNTC_Failure: 1, 0, RSCU, BDCS;//后排右侧坐垫NTC故障
+  RSCU1_RRBackrestNTC_Failure: 1, 0, RSCU, BDCS;//后排右侧靠背NTC故障
+  RSCU1_RLCushionHeat_Failure: 1, 0, RSCU, BDCS;//后排左侧坐垫加热丝故障
+  RSCU1_RLBackrestHeat_Failure: 1, 0, RSCU, BDCS;//后排左侧靠背加热丝故障
+  RSCU1_RRCushionHeat_Failure: 1, 0, RSCU, BDCS;//后排右侧坐垫加热丝故障
+  RSCU1_RRBackrestHeat_Failure: 1, 0, RSCU, BDCS;//后排右侧靠背加热丝故障
+  RSCU1_RLVentilating_Failure: 1, 0, RSCU, BDCS;//后排左侧通风故障
+  RSCU1_RRVentilating_Failure: 1, 0, RSCU, BDCS;//后排右侧通风故障
+  RSCU1_RLBackrestAngleRelay_Failure: 1, 0, RSCU, BDCS;//后排左侧调节故障
+  RSCU1_RRVBackrestAngleRelay_Failure: 1, 0, RSCU, BDCS;//后排右侧调节故障
+  RSCU1_RLBackrestHall_Failure: 1, 0, RSCU, BDCS;//后排左侧靠背电机Hall故障
+  RSCU1_RRBackrestHall_Failure: 1, 0, RSCU, BDCS;//后排右侧靠背电机Hall故障
+  IGN_State: 2, 0, BDCS, CO2;//点火开关状态
+  AlarmMode: 1, 0, BDCS, CO2;//车身设防状态
+  FL_door_Sts: 1, 0, BDCS, CO2;//左前门状态
+  FR_door_Sts: 1, 0, BDCS, CO2;//右前门状态
+  RL_door_Sts: 1, 0, BDCS, CO2;//左后门状态
+  RR_door_Sts: 1, 0, BDCS, CO2;//右后门状态
+  Trunk_Sts: 1, 0, BDCS, CO2;//后备箱状态
+  CLM_offCmd: 1, 0, BDCS, CO2;//空调关闭控制指令
+  ResponseError: 1, 0, CO2, BDCS;//错误响应
+  CO2Value: 16, 65535, CO2, BDCS;//CO2
+  DensityStatus: 2, 0, CO2, BDCS;//浓度报警状态
+  Life_status: 2, 0, CO2, BDCS;//生命状态
+  sensor_status: 2, 0, CO2, BDCS;//传感器本体状态
+}
+
+Diagnostic_signals {
+  MasterReqB0: 8, 0 ;
+  MasterReqB1: 8, 0 ;
+  MasterReqB2: 8, 0 ;
+  MasterReqB3: 8, 0 ;
+  MasterReqB4: 8, 0 ;
+  MasterReqB5: 8, 0 ;
+  MasterReqB6: 8, 0 ;
+  MasterReqB7: 8, 0 ;
+  SlaveRespB0: 8, 0 ;
+  SlaveRespB1: 8, 0 ;
+  SlaveRespB2: 8, 0 ;
+  SlaveRespB3: 8, 0 ;
+  SlaveRespB4: 8, 0 ;
+  SlaveRespB5: 8, 0 ;
+  SlaveRespB6: 8, 0 ;
+  SlaveRespB7: 8, 0 ;
+}
+Frames {
+  BDCS_Lin2Fr2: 32, BDCS, 8 {
+    BDCS2_DGSW, 0 ;
+    BDCS2_DGPercentCtrl, 2 ;
+    BDCS2_CatchBoltStatus, 8 ;
+    BDCS2_CMD_AutoWiper, 9 ;
+    BDCS2_RQ_FrontWash, 10 ;
+    BDCS2_ParkPosition, 11 ;
+    BDCS2_RainSensitivity, 12 ;
+    BDCS2_CloseWinEnableCtrl, 15 ;
+    BDCS2_RLS_WiperGear, 16 ;
+    CDCS5_DGM_AutoSW, 19 ;
+    CDCS8_RLSeatBackrestAdjCmd, 24 ;
+    TBOX4_LRSeatHeaterCmd, 26 ;
+    TBOX4_RRSeatHeaterCmd, 29 ;
+    CDCS8_LRSeatHeaterCmd, 32 ;
+    CDCS8_RRSeatHeaterCmd, 35 ;
+    CDCS5_DGM_IntelligentProtectionSW, 38 ;
+    BDCS2_RearSeatHeating_Configuration, 54 ;
+    BDCS2_RearSeatVentilating_configuration, 55 ;
+    CDCS8_RRSeatBackrestAdjCmd, 56 ;
+    BDCS2_RLSeatVentCmd, 58 ;
+    BDCS2_RRSeatVentCmd, 61 ;
+  }
+  BDCS_Lin2Fr1: 16, BDCS, 8 {
+    BDCS1_VehicleType, 0 ;
+    BDCS1_PowerMode, 6 ;
+    BDCS1_IDB3_VehicleSpd, 8 ;
+    BDCS1_IDB3_VehicleSpdValid, 22 ;
+    BDCS1_AC_OutsideTempValid, 23 ;
+    BDCS1_AC_OutsideTemp, 24 ;
+    BDCS1_ACU1_CrashStatus, 32 ;
+    BDCS1_AlarmMode, 33 ;
+    BDCS1_Backlight_brightness_fb, 36 ;
+    BDCS1_BacklightStatus, 40 ;
+    BDCS1_TrunkLockSts, 41 ;
+    DDCU1_FLDoorAjar, 42 ;
+    DDCU1_RLDoorAjar, 44 ;
+    PDCU1_FRDoorAjar, 46 ;
+    PDCU1_RRDoorAjar, 48 ;
+  }
+  DGM_Lin2Fr1: 33, DGM, 8 {
+    DGM_ResponseError, 63 ;
+    DGM_IntelligentProtectionSt, 0 ;
+    DGM_SWSts, 1 ;
+    DGM_overCurrent, 5 ;
+    DGM_AutoSWSts, 6 ;
+    DGM_percentSts, 8 ;
+    DGM_AdjustedPercentage, 16 ;
+  }
+  KS_Lin2Fr1: 38, KS, 8 {
+    KS_ResponseError, 63 ;
+    KS_KickDetected, 17 ;
+    KS_VehicleTypeUnknown, 18 ;
+    KS_SensorStatus, 33 ;
+  }
+  RLS_Lin2Fr1: 35, RLS, 8 {
+    RLS1_ResponseError, 63 ;
+    RLS1_RQ_WiperSPD, 4 ;
+    RLS1_RQ_LowBeam, 7 ;
+    RLS1_Day_or_night_state, 8 ;
+    RLS1_Fault_Rain, 9 ;
+    RLS1_Fault_Light, 10 ;
+    RLS1_Win_Close_Cmd, 14 ;
+    RLS1_Solar_Driver, 16 ;
+    RLS1_Solar_Passenger, 24 ;
+    RLS1_Solar_Error, 32 ;
+  }
+  RLS_Lin2Fr2: 40, RLS, 8 {
+    RLS2_HUDBrightnessRawValue, 0 ;
+    RLS2_HUDBrightnessUnit, 8 ;
+    RLS2_Fault_HUDBrightness, 10 ;
+    RLS2_Humid, 32 ;
+    RLS2_Temperature, 40 ;
+    RLS2_TempDewPoint, 48 ;
+    RLS2_Humid_Temp_Error, 61 ;
+  }
+  RATS_Lin2Fr1: 45, RATS, 8 {
+    RATS1_ResponseError, 63 ;
+    RATS1_RLSeatBackrestAdjCmd, 0 ;
+    RATS1_RRSeatBackrestAdjCmd, 2 ;
+    RATS1_ErrorSts, 4 ;
+    RATS1_RLSeatHeaterCmd, 5 ;
+    RATS1_RRSeatHeaterCmd, 8 ;
+    RATS1_RLSeatVentCmd, 11 ;
+    RATS1_RRSeatVentCmd, 16 ;
+    RATS1_Voltage_errorCode, 19 ;
+    RATS1_Capsense_errorCode, 20 ;
+    RATS1_Motor_errorCode, 21 ;
+    RATS1_DFGLS_ButtonSoundRequest, 22 ;
+  }
+  RSCU_Lin2Fr1: 44, RSCU, 8 {
+    RSCU1_ResponseError, 63 ;
+    RSCU1_RL_Heating_Status, 0 ;
+    RSCU1_RR_Heating_Status, 2 ;
+    RSCU1_RL_Venting_Status_Reserved, 4 ;
+    RSCU1_RR_Venting_Status, 6 ;
+    RSCU1_RLCushionNTC_Failure, 11 ;
+    RSCU1_RLBackrestNTC_Failure, 13 ;
+    RSCU1_RRCushionNTC_Failure, 15 ;
+    RSCU1_RRBackrestNTC_Failure, 17 ;
+    RSCU1_RLCushionHeat_Failure, 19 ;
+    RSCU1_RLBackrestHeat_Failure, 21 ;
+    RSCU1_RRCushionHeat_Failure, 23 ;
+    RSCU1_RRBackrestHeat_Failure, 25 ;
+    RSCU1_RLVentilating_Failure, 27 ;
+    RSCU1_RRVentilating_Failure, 28 ;
+    RSCU1_RLBackrestAngleRelay_Failure, 29 ;
+    RSCU1_RRVBackrestAngleRelay_Failure, 30 ;
+    RSCU1_RLBackrestHall_Failure, 31 ;
+    RSCU1_RRBackrestHall_Failure, 24 ;
+  }
+  BDCS_Lin2Fr3: 18, BDCS, 8 {
+    IGN_State, 0 ;
+    AlarmMode, 2 ;
+    FL_door_Sts, 3 ;
+    FR_door_Sts, 4 ;
+    RL_door_Sts, 5 ;
+    RR_door_Sts, 6 ;
+    Trunk_Sts, 7 ;
+    CLM_offCmd, 8 ;
+  }
+  CO2_Lin2Fr1: 17, CO2, 3 {
+    ResponseError, 20 ;
+    CO2Value, 0 ;
+    DensityStatus, 16 ;
+    Life_status, 18 ;
+    sensor_status, 21 ;
+  }
+}
+
+Diagnostic_frames {
+  MasterReq: 0x3c {
+    MasterReqB0, 0 ;
+    MasterReqB1, 8 ;
+    MasterReqB2, 16 ;
+    MasterReqB3, 24 ;
+    MasterReqB4, 32 ;
+    MasterReqB5, 40 ;
+    MasterReqB6, 48 ;
+    MasterReqB7, 56 ;
+  }
+  SlaveResp: 0x3d {
+    SlaveRespB0, 0 ;
+    SlaveRespB1, 8 ;
+    SlaveRespB2, 16 ;
+    SlaveRespB3, 24 ;
+    SlaveRespB4, 32 ;
+    SlaveRespB5, 40 ;
+    SlaveRespB6, 48 ;
+    SlaveRespB7, 56 ;
+  }
+}
+Node_attributes {
+  RLS{
+    LIN_protocol = "2.1" ;
+    configured_NAD = 16 ;
+    initial_NAD = 16 ;
+    product_id = 0x0, 0x0, 0 ;
+    response_error = RLS1_ResponseError ;
+    configurable_frames {
+      BDCS_Lin2Fr2 ;
+      BDCS_Lin2Fr1 ;
+      RLS_Lin2Fr1 ;
+      RLS_Lin2Fr2 ;
+    }
+  }
+  CO2{
+    LIN_protocol = "2.1" ;
+    configured_NAD = 17 ;
+    initial_NAD = 17 ;
+    product_id = 0x0, 0x0, 0 ;
+    response_error = ResponseError ;
+    configurable_frames {
+      BDCS_Lin2Fr1 ;
+      BDCS_Lin2Fr3 ;
+      CO2_Lin2Fr1 ;
+    }
+  }
+  RSCU{
+    LIN_protocol = "2.1" ;
+    configured_NAD = 23 ;
+    initial_NAD = 23 ;
+    product_id = 0x0, 0x0, 0 ;
+    response_error = RSCU1_ResponseError ;
+    configurable_frames {
+      BDCS_Lin2Fr2 ;
+      BDCS_Lin2Fr1 ;
+      RSCU_Lin2Fr1 ;
+    }
+  }
+  DGM{
+    LIN_protocol = "2.1" ;
+    configured_NAD = 18 ;
+    initial_NAD = 18 ;
+    product_id = 0x0, 0x0, 0 ;
+    response_error = DGM_ResponseError ;
+    configurable_frames {
+      BDCS_Lin2Fr2 ;
+      DGM_Lin2Fr1 ;
+      RLS_Lin2Fr1 ;
+    }
+  }
+  RATS{
+    LIN_protocol = "2.1" ;
+    configured_NAD = 20 ;
+    initial_NAD = 20 ;
+    product_id = 0x0, 0x0, 0 ;
+    response_error = RATS1_ResponseError ;
+    configurable_frames {
+      BDCS_Lin2Fr2 ;
+      BDCS_Lin2Fr1 ;
+      RATS_Lin2Fr1 ;
+      RSCU_Lin2Fr1 ;
+    }
+  }
+  KS{
+    LIN_protocol = "2.1" ;
+    configured_NAD = 21 ;
+    initial_NAD = 21 ;
+    product_id = 0x0, 0x0, 0 ;
+    response_error = KS_ResponseError ;
+    configurable_frames {
+      BDCS_Lin2Fr2 ;
+      BDCS_Lin2Fr1 ;
+      KS_Lin2Fr1 ;
+    }
+  }
+}
+
+Schedule_tables {
+ Dynamic {
+    BDCS_Lin2Fr2 delay 10 ms ;
+    BDCS_Lin2Fr1 delay 10 ms ;
+    DGM_Lin2Fr1 delay 10 ms ;
+    KS_Lin2Fr1 delay 10 ms ;
+    RLS_Lin2Fr1 delay 10 ms ;
+    RLS_Lin2Fr2 delay 10 ms ;
+    RATS_Lin2Fr1 delay 10 ms ;
+    RSCU_Lin2Fr1 delay 10 ms ;
+    BDCS_Lin2Fr3 delay 10 ms ;
+    CO2_Lin2Fr1 delay 10 ms ;
+  }
+}
+
+Signal_encoding_types {
+  Enc_BDCS_Lin2Fr2_BDCS2_DGSW {
+    physical_value, 0, 3, 1, 0, "NoUnit" ;
+    logical_value, 0, "NO COMMOND" ;
+    logical_value, 1, "OPEN" ;
+    logical_value, 2, "CLOSE" ;
+    logical_value, 3, "Auto" ;
+  }
+  Enc_BDCS_Lin2Fr2_BDCS2_DGPercentCtrl {
+    physical_value, 0, 31, 1, 0, "NoUnit" ;
+    logical_value, 0, " NO_Req" ;
+    logical_value, 1, " 0%" ;
+    logical_value, 2, " 10%" ;
+    logical_value, 3, " 20%" ;
+    logical_value, 4, " 30%" ;
+    logical_value, 5, " 40%" ;
+    logical_value, 6, " 50%" ;
+    logical_value, 7, " 60%" ;
+    logical_value, 8, " 70%" ;
+    logical_value, 9, " 80%" ;
+    logical_value, 10, " 90%" ;
+    logical_value, 11, " 100%" ;
+    logical_value, 31, " INVALID" ;
+  }
+  Enc_BDCS_Lin2Fr2_BDCS2_CatchBoltStatus {
+    physical_value, 0, 1, 1, 0, "NoUnit" ;
+    logical_value, 0, "Disable（禁用）" ;
+    logical_value, 1, "Enable（允许）" ;
+  }
+  Enc_BDCS_Lin2Fr2_BDCS2_CMD_AutoWiper {
+    physical_value, 0, 1, 1, 0, "NoUnit" ;
+    logical_value, 0, "OFF" ;
+    logical_value, 1, "ON" ;
+  }
+  Enc_BDCS_Lin2Fr2_BDCS2_RQ_FrontWash {
+    physical_value, 0, 1, 1, 0, "NoUnit" ;
+    logical_value, 0, "No RQ" ;
+    logical_value, 1, "RQ FrontWash" ;
+  }
+  Enc_BDCS_Lin2Fr2_BDCS2_ParkPosition {
+    physical_value, 0, 1, 1, 0, "NoUnit" ;
+    logical_value, 0, "Stop not in parking postion" ;
+    logical_value, 1, "Stop in parking postion" ;
+  }
+  Enc_BDCS_Lin2Fr2_BDCS2_RainSensitivity {
+    physical_value, 0, 7, 1, 0, "NoUnit" ;
+    logical_value, 0, "level1" ;
+    logical_value, 1, "level2" ;
+    logical_value, 2, "level3" ;
+    logical_value, 3, "level4" ;
+    logical_value, 4, "level5" ;
+    logical_value, 5, "level6" ;
+  }
+  Enc_BDCS_Lin2Fr2_BDCS2_CloseWinEnableCtrl {
+    physical_value, 0, 1, 1, 0, "NoUnit" ;
+    logical_value, 0, "Disable" ;
+    logical_value, 1, "Enable" ;
+  }
+  Enc_BDCS_Lin2Fr2_BDCS2_RLS_WiperGear {
+    physical_value, 0, 7, 1, 0, "NoUnit" ;
+    logical_value, 0, "OFF" ;
+    logical_value, 1, "MIST" ;
+    logical_value, 2, "LOW" ;
+    logical_value, 3, "HI" ;
+    logical_value, 4, "AUTO 1" ;
+    logical_value, 5, "AUTO 2" ;
+    logical_value, 7, "Error" ;
+  }
+  Enc_BDCS_Lin2Fr2_CDCS5_DGM_AutoSW {
+    physical_value, 0, 3, 1, 0, "NoUnit" ;
+    logical_value, 0, "NoRequest " ;
+    logical_value, 1, "ON" ;
+    logical_value, 2, "OFF" ;
+  }
+  Enc_BDCS_Lin2Fr2_CDCS8_RLSeatBackrestAdjCmd {
+    physical_value, 0, 3, 1, 0, "NoUnit" ;
+    logical_value, 0, "Norequest" ;
+    logical_value, 1, "Foreake" ;
+    logical_value, 2, "Hypsokinesis" ;
+  }
+  Enc_BDCS_Lin2Fr2_TBOX4_LRSeatHeaterCmd {
+    physical_value, 0, 7, 1, 0, "NoUnit" ;
+    logical_value, 0, "No Request" ;
+    logical_value, 1, "OFF" ;
+    logical_value, 2, "Low" ;
+    logical_value, 3, "Middle" ;
+    logical_value, 4, "High" ;
+  }
+  Enc_BDCS_Lin2Fr2_TBOX4_RRSeatHeaterCmd {
+    physical_value, 0, 7, 1, 0, "NoUnit" ;
+    logical_value, 0, "No Request" ;
+    logical_value, 1, "OFF" ;
+    logical_value, 2, "Low" ;
+    logical_value, 3, "Middle" ;
+    logical_value, 4, "High" ;
+  }
+  Enc_BDCS_Lin2Fr2_CDCS8_LRSeatHeaterCmd {
+    physical_value, 0, 7, 1, 0, "NoUnit" ;
+    logical_value, 0, "No Request" ;
+    logical_value, 1, "OFF" ;
+    logical_value, 2, "Low" ;
+    logical_value, 3, "Middle" ;
+    logical_value, 4, "High" ;
+  }
+  Enc_BDCS_Lin2Fr2_CDCS8_RRSeatHeaterCmd {
+    physical_value, 0, 7, 1, 0, "NoUnit" ;
+    logical_value, 0, "No Request" ;
+    logical_value, 1, "OFF" ;
+    logical_value, 2, "Low" ;
+    logical_value, 3, "Middle" ;
+    logical_value, 4, "High" ;
+  }
+  Enc_BDCS_Lin2Fr2_CDCS5_DGM_IntelligentProtectionSW {
+    physical_value, 0, 3, 1, 0, "NoUnit" ;
+    logical_value, 0, "NoRequest " ;
+    logical_value, 1, "ON" ;
+    logical_value, 2, "OFF" ;
+  }
+  Enc_BDCS_Lin2Fr2_BDCS2_RearSeatHeating_Configuration {
+    physical_value, 0, 1, 1, 0, "NoUnit" ;
+    logical_value, 0, "无加热" ;
+    logical_value, 1, "加热" ;
+  }
+  Enc_BDCS_Lin2Fr2_BDCS2_RearSeatVentilating_configuration {
+    physical_value, 0, 1, 1, 0, "NoUnit" ;
+    logical_value, 0, "无通风" ;
+    logical_value, 1, "通风" ;
+  }
+  Enc_BDCS_Lin2Fr2_CDCS8_RRSeatBackrestAdjCmd {
+    physical_value, 0, 3, 1, 0, "NoUnit" ;
+    logical_value, 0, "Norequest" ;
+    logical_value, 1, "Foreake" ;
+    logical_value, 2, "Hypsokinesis" ;
+  }
+  Enc_BDCS_Lin2Fr2_BDCS2_RLSeatVentCmd {
+    physical_value, 0, 7, 1, 0, "NoUnit" ;
+    logical_value, 0, "No Request" ;
+    logical_value, 1, "OFF" ;
+    logical_value, 2, "Low" ;
+    logical_value, 3, "Middle" ;
+    logical_value, 4, "High" ;
+  }
+  Enc_BDCS_Lin2Fr2_BDCS2_RRSeatVentCmd {
+    physical_value, 0, 7, 1, 0, "NoUnit" ;
+    logical_value, 0, "No Request" ;
+    logical_value, 1, "OFF" ;
+    logical_value, 2, "Low" ;
+    logical_value, 3, "Middle" ;
+    logical_value, 4, "High" ;
+  }
+  Enc_BDCS_Lin2Fr1_BDCS1_VehicleType {
+    physical_value, 0, 63, 1, 0, "NoUnit" ;
+    logical_value, 0, "EP30" ;
+    logical_value, 1, "EP40" ;
+  }
+  Enc_BDCS_Lin2Fr1_BDCS1_PowerMode {
+    physical_value, 0, 3, 1, 0, "NoUnit" ;
+    logical_value, 0, "OFF" ;
+    logical_value, 1, "ACC" ;
+    logical_value, 2, "ON" ;
+    logical_value, 3, "Crank" ;
+  }
+  Enc_BDCS_Lin2Fr1_BDCS1_IDB3_VehicleSpd {
+    physical_value, 0, 16382, 0.03125, 0, "kmNoUnith" ;
+  }
+  Enc_BDCS_Lin2Fr1_BDCS1_IDB3_VehicleSpdValid {
+    physical_value, 0, 1, 1, 0, "NoUnit" ;
+    logical_value, 0, "Invalid(无效)" ;
+    logical_value, 1, "Valid(有效)" ;
+  }
+  Enc_BDCS_Lin2Fr1_BDCS1_AC_OutsideTempValid {
+    physical_value, 0, 1, 1, 0, "NoUnit" ;
+    logical_value, 0, "Invalid(无效)" ;
+    logical_value, 1, "Valid(有效)" ;
+  }
+  Enc_BDCS_Lin2Fr1_BDCS1_AC_OutsideTemp {
+    physical_value, 0, 250, 0.5, -50, "℃" ;
+  }
+  Enc_BDCS_Lin2Fr1_BDCS1_ACU1_CrashStatus {
+    physical_value, 0, 1, 1, 0, "NoUnit" ;
+    logical_value, 0, "Crash not happened（没有碰撞事件）" ;
+    logical_value, 1, "Crash happened（有碰撞事件）" ;
+  }
+  Enc_BDCS_Lin2Fr1_BDCS1_AlarmMode {
+    physical_value, 0, 7, 1, 0, "NoUnit" ;
+    logical_value, 0, "No-AntiTheft" ;
+    logical_value, 1, "Pre-AntiThrft" ;
+    logical_value, 2, "AntiTheft" ;
+    logical_value, 3, "Alarm Triggered" ;
+    logical_value, 4, "Alarm" ;
+  }
+  Enc_BDCS_Lin2Fr1_BDCS1_Backlight_brightness_fb {
+    physical_value, 0, 15, 1, 0, "NoUnit" ;
+    logical_value, 1, "Level 1" ;
+    logical_value, 2, "Level 2" ;
+    logical_value, 3, "Level 3" ;
+    logical_value, 4, "Level 4" ;
+    logical_value, 5, "Level 5" ;
+    logical_value, 6, "Level 6" ;
+    logical_value, 7, "Level 7" ;
+    logical_value, 8, "Level 8" ;
+    logical_value, 9, "Level 9" ;
+    logical_value, 10, "Level 10" ;
+  }
+  Enc_BDCS_Lin2Fr1_BDCS1_BacklightStatus {
+    physical_value, 0, 1, 1, 0, "NoUnit" ;
+    logical_value, 0, "Inactive" ;
+    logical_value, 1, "Active" ;
+  }
+  Enc_BDCS_Lin2Fr1_BDCS1_TrunkLockSts {
+    physical_value, 0, 1, 1, 0, "NoUnit" ;
+    logical_value, 0, "Unlocked" ;
+    logical_value, 1, "Locked" ;
+  }
+  Enc_BDCS_Lin2Fr1_DDCU1_FLDoorAjar {
+    physical_value, 0, 3, 1, 0, "NoUnit" ;
+    logical_value, 0, "Closed" ;
+    logical_value, 1, "Secondary" ;
+    logical_value, 2, "Open" ;
+    logical_value, 3, "Unknow" ;
+  }
+  Enc_BDCS_Lin2Fr1_DDCU1_RLDoorAjar {
+    physical_value, 0, 3, 1, 0, "NoUnit" ;
+    logical_value, 0, "Closed" ;
+    logical_value, 1, "Secondary" ;
+    logical_value, 2, "Open" ;
+    logical_value, 3, "Unknow" ;
+  }
+  Enc_BDCS_Lin2Fr1_PDCU1_FRDoorAjar {
+    physical_value, 0, 3, 1, 0, "NoUnit" ;
+    logical_value, 0, "Closed" ;
+    logical_value, 1, "Secondary" ;
+    logical_value, 2, "Open" ;
+    logical_value, 3, "Unknow" ;
+  }
+  Enc_BDCS_Lin2Fr1_PDCU1_RRDoorAjar {
+    physical_value, 0, 3, 1, 0, "NoUnit" ;
+    logical_value, 0, "Closed" ;
+    logical_value, 1, "Secondary" ;
+    logical_value, 2, "Open" ;
+    logical_value, 3, "Unknow" ;
+  }
+  Enc_DGM_Lin2Fr1_DGM_ResponseError {
+    physical_value, 0, 1, 1, 0, "NoUnit" ;
+    logical_value, 0, "normal" ;
+    logical_value, 1, "fault" ;
+  }
+  Enc_DGM_Lin2Fr1_DGM_IntelligentProtectionSt {
+    physical_value, 0, 1, 1, 0, "NoUnit" ;
+    logical_value, 0, "OFF " ;
+    logical_value, 1, "ON" ;
+  }
+  Enc_DGM_Lin2Fr1_DGM_SWSts {
+    physical_value, 0, 3, 1, 0, "NoUnit" ;
+    logical_value, 0, "NO Command" ;
+    logical_value, 1, "Open" ;
+    logical_value, 2, "Close" ;
+    logical_value, 3, "Auto" ;
+  }
+  Enc_DGM_Lin2Fr1_DGM_overCurrent {
+    physical_value, 0, 1, 1, 0, "NoUnit" ;
+    logical_value, 0, "NoError" ;
+    logical_value, 1, "Error" ;
+  }
+  Enc_DGM_Lin2Fr1_DGM_AutoSWSts {
+    physical_value, 0, 1, 1, 0, "NoUnit" ;
+    logical_value, 0, "OFF " ;
+    logical_value, 1, "ON" ;
+  }
+  Enc_DGM_Lin2Fr1_DGM_percentSts {
+    physical_value, 0, 31, 1, 0, "NoUnit" ;
+    logical_value, 0, " Default" ;
+    logical_value, 1, " 0%" ;
+    logical_value, 2, " 10%" ;
+    logical_value, 3, " 20%" ;
+    logical_value, 4, " 30%" ;
+    logical_value, 5, " 40%" ;
+    logical_value, 6, " 50%" ;
+    logical_value, 7, " 60%" ;
+    logical_value, 8, " 70%" ;
+    logical_value, 9, " 80%" ;
+    logical_value, 10, " 90%" ;
+    logical_value, 11, " 100%" ;
+    logical_value, 31, " INVALID" ;
+  }
+  Enc_DGM_Lin2Fr1_DGM_AdjustedPercentage {
+    physical_value, 0, 100, 1, 0, "%" ;
+  }
+  Enc_KS_Lin2Fr1_KS_ResponseError {
+    physical_value, 0, 1, 1, 0, "NoUnit" ;
+    logical_value, 0, "normal" ;
+    logical_value, 1, "fault" ;
+  }
+  Enc_KS_Lin2Fr1_KS_KickDetected {
+    physical_value, 0, 1, 1, 0, "NoUnit" ;
+    logical_value, 0, "No activation detected " ;
+    logical_value, 1, "kick movement detected（open tail gate）" ;
+  }
+  Enc_KS_Lin2Fr1_KS_VehicleTypeUnknown {
+    physical_value, 0, 1, 1, 0, "NoUnit" ;
+    logical_value, 0, "vehicle type know" ;
+    logical_value, 1, "vehicle type unknown" ;
+  }
+  Enc_KS_Lin2Fr1_KS_SensorStatus {
+    physical_value, 0, 47, 1, 0, "NoUnit" ;
+    logical_value, 0, "sensor deactivated（无效）" ;
+    logical_value, 1, "sensor working（normal mode）" ;
+    logical_value, 2, "diagnose（诊断） working " ;
+    logical_value, 3, "parameterization active" ;
+    logical_value, 4, "power on reset" ;
+    logical_value, 5, "reserved0" ;
+    logical_value, 6, "reserved1" ;
+    logical_value, 7, "initialization（初始化）" ;
+  }
+  Enc_RLS_Lin2Fr1_RLS1_ResponseError {
+    physical_value, 0, 1, 1, 0, "NoUnit" ;
+    logical_value, 0, "normal" ;
+    logical_value, 1, "fault" ;
+  }
+  Enc_RLS_Lin2Fr1_RLS1_RQ_WiperSPD {
+    physical_value, 0, 3, 1, 0, "NoUnit" ;
+    logical_value, 0, "No wiping" ;
+    logical_value, 1, "Low Speed" ;
+    logical_value, 2, "High Speed" ;
+    logical_value, 3, "Not used" ;
+  }
+  Enc_RLS_Lin2Fr1_RLS1_RQ_LowBeam {
+    physical_value, 0, 1, 1, 0, "NoUnit" ;
+    logical_value, 0, "No RQ on Low Beam" ;
+    logical_value, 1, "RQ on Low Beam" ;
+  }
+  Enc_RLS_Lin2Fr1_RLS1_Day_or_night_state {
+    physical_value, 0, 1, 1, 0, "NoUnit" ;
+    logical_value, 0, "Day" ;
+    logical_value, 1, "Night" ;
+  }
+  Enc_RLS_Lin2Fr1_RLS1_Fault_Rain {
+    physical_value, 0, 1, 1, 0, "NoUnit" ;
+    logical_value, 0, "Normal Status" ;
+    logical_value, 1, "Status Fault" ;
+  }
+  Enc_RLS_Lin2Fr1_RLS1_Fault_Light {
+    physical_value, 0, 1, 1, 0, "NoUnit" ;
+    logical_value, 0, "Normal Status" ;
+    logical_value, 1, "Status Fault" ;
+  }
+  Enc_RLS_Lin2Fr1_RLS1_Win_Close_Cmd {
+    physical_value, 0, 3, 1, 0, "NoUnit" ;
+    logical_value, 0, "No Request" ;
+    logical_value, 1, "Request Close Windows and Sunroof" ;
+    logical_value, 2, "Time out Request Close Windows and Sunroof" ;
+    logical_value, 3, "Invalid" ;
+  }
+  Enc_RLS_Lin2Fr1_RLS1_Solar_Driver {
+    physical_value, 0, 250, 4, 0, "wNoUnitm2" ;
+  }
+  Enc_RLS_Lin2Fr1_RLS1_Solar_Passenger {
+    physical_value, 0, 250, 4, 0, "wNoUnitm2" ;
+  }
+  Enc_RLS_Lin2Fr1_RLS1_Solar_Error {
+    physical_value, 0, 1, 1, 0, "NoUnit" ;
+    logical_value, 0, "No error" ;
+    logical_value, 1, "Error" ;
+  }
+  Enc_RLS_Lin2Fr2_RLS2_HUDBrightnessRawValue {
+    physical_value, 0, 127, 1, 0 ;
+  }
+  Enc_RLS_Lin2Fr2_RLS2_HUDBrightnessUnit {
+    physical_value, 0, 3, 1, 0, "NoUnit" ;
+    logical_value, 0, "10 lux" ;
+    logical_value, 1, "100 lux" ;
+    logical_value, 2, "1000 lux" ;
+    logical_value, 3, "invalid" ;
+  }
+  Enc_RLS_Lin2Fr2_RLS2_Fault_HUDBrightness {
+    physical_value, 0, 1, 1, 0, "NoUnit" ;
+    logical_value, 0, "No error" ;
+    logical_value, 1, "Error" ;
+  }
+  Enc_RLS_Lin2Fr2_RLS2_Humid {
+    physical_value, 0, 200, 0.5, 0, "%" ;
+  }
+  Enc_RLS_Lin2Fr2_RLS2_Temperature {
+    physical_value, 0, 254, 0.5, -40, "℃" ;
+  }
+  Enc_RLS_Lin2Fr2_RLS2_TempDewPoint {
+    physical_value, 0, 1000, 0.1, -39.6, "℃" ;
+  }
+  Enc_RLS_Lin2Fr2_RLS2_Humid_Temp_Error {
+    physical_value, 0, 1, 1, 0, "NoUnit" ;
+    logical_value, 0, "No error" ;
+    logical_value, 1, "Error" ;
+  }
+  Enc_RATS_Lin2Fr1_RATS1_ResponseError {
+    physical_value, 0, 1, 1, 0, "NoUnit" ;
+    logical_value, 0, "normal" ;
+    logical_value, 1, "fault" ;
+  }
+  Enc_RATS_Lin2Fr1_RATS1_RLSeatBackrestAdjCmd {
+    physical_value, 0, 2, 1, 0, "NoUnit" ;
+    logical_value, 0, "Norequest" ;
+    logical_value, 1, "Foreake" ;
+    logical_value, 2, "Hypsokinesis" ;
+  }
+  Enc_RATS_Lin2Fr1_RATS1_RRSeatBackrestAdjCmd {
+    physical_value, 0, 2, 1, 0, "NoUnit" ;
+    logical_value, 0, "Norequest" ;
+    logical_value, 1, "Foreake" ;
+    logical_value, 2, "Hypsokinesis" ;
+  }
+  Enc_RATS_Lin2Fr1_RATS1_ErrorSts {
+    physical_value, 0, 1, 1, 0, "NoUnit" ;
+    logical_value, 0, "No error" ;
+    logical_value, 1, "Error" ;
+  }
+  Enc_RATS_Lin2Fr1_RATS1_RLSeatHeaterCmd {
+    physical_value, 0, 7, 1, 0, "NoUnit" ;
+    logical_value, 0, "No Request" ;
+    logical_value, 1, "OFF" ;
+    logical_value, 2, "Low" ;
+    logical_value, 3, "Middle" ;
+    logical_value, 4, "High" ;
+  }
+  Enc_RATS_Lin2Fr1_RATS1_RRSeatHeaterCmd {
+    physical_value, 0, 7, 1, 0, "NoUnit" ;
+    logical_value, 0, "No Request" ;
+    logical_value, 1, "OFF" ;
+    logical_value, 2, "Low" ;
+    logical_value, 3, "Middle" ;
+    logical_value, 4, "High" ;
+  }
+  Enc_RATS_Lin2Fr1_RATS1_RLSeatVentCmd {
+    physical_value, 0, 7, 1, 0, "NoUnit" ;
+    logical_value, 0, "No Request" ;
+    logical_value, 1, "OFF" ;
+    logical_value, 2, "Level1" ;
+    logical_value, 3, "Level2" ;
+    logical_value, 4, "Level3" ;
+  }
+  Enc_RATS_Lin2Fr1_RATS1_RRSeatVentCmd {
+    physical_value, 0, 7, 1, 0, "NoUnit" ;
+    logical_value, 0, "No Request" ;
+    logical_value, 1, "OFF" ;
+    logical_value, 2, "Level1" ;
+    logical_value, 3, "Level2" ;
+    logical_value, 4, "Level3" ;
+  }
+  Enc_RATS_Lin2Fr1_RATS1_Voltage_errorCode {
+    physical_value, 0, 1, 1, 0, "NoUnit" ;
+    logical_value, 0, "No error" ;
+    logical_value, 1, "Error" ;
+  }
+  Enc_RATS_Lin2Fr1_RATS1_Capsense_errorCode {
+    physical_value, 0, 1, 1, 0, "NoUnit" ;
+    logical_value, 0, "No error" ;
+    logical_value, 1, "Error" ;
+  }
+  Enc_RATS_Lin2Fr1_RATS1_Motor_errorCode {
+    physical_value, 0, 1, 1, 0, "NoUnit" ;
+    logical_value, 0, "No error" ;
+    logical_value, 1, "Error" ;
+  }
+  Enc_RATS_Lin2Fr1_RATS1_DFGLS_ButtonSoundRequest {
+    physical_value, 0, 1, 1, 0, "NoUnit" ;
+    logical_value, 0, "NoRequest" ;
+    logical_value, 1, "Request" ;
+  }
+  Enc_RSCU_Lin2Fr1_RSCU1_ResponseError {
+    physical_value, 0, 1, 1, 0, "NoUnit" ;
+    logical_value, 0, "normal" ;
+    logical_value, 1, "fault" ;
+  }
+  Enc_RSCU_Lin2Fr1_RSCU1_RL_Heating_Status {
+    physical_value, 0, 3, 1, 0, "NoUnit" ;
+    logical_value, 0, "OFF" ;
+    logical_value, 1, "Low" ;
+    logical_value, 2, "Middle" ;
+    logical_value, 3, "Hight" ;
+  }
+  Enc_RSCU_Lin2Fr1_RSCU1_RR_Heating_Status {
+    physical_value, 0, 3, 1, 0, "NoUnit" ;
+    logical_value, 0, "OFF" ;
+    logical_value, 1, "Low" ;
+    logical_value, 2, "Middle" ;
+    logical_value, 3, "Hight" ;
+  }
+  Enc_RSCU_Lin2Fr1_RSCU1_RL_Venting_Status_Reserved {
+    physical_value, 0, 3, 1, 0, "NoUnit" ;
+    logical_value, 0, "OFF" ;
+    logical_value, 1, "Low" ;
+    logical_value, 2, "Middle" ;
+    logical_value, 3, "Hight" ;
+  }
+  Enc_RSCU_Lin2Fr1_RSCU1_RR_Venting_Status {
+    physical_value, 0, 3, 1, 0, "NoUnit" ;
+    logical_value, 0, "OFF" ;
+    logical_value, 1, "Low" ;
+    logical_value, 2, "Middle" ;
+    logical_value, 3, "Hight" ;
+  }
+  Enc_RSCU_Lin2Fr1_RSCU1_RLCushionNTC_Failure {
+    physical_value, 0, 1, 1, 0, "NoUnit" ;
+    logical_value, 0, "No failure" ;
+    logical_value, 1, "Failure" ;
+  }
+  Enc_RSCU_Lin2Fr1_RSCU1_RLBackrestNTC_Failure {
+    physical_value, 0, 1, 1, 0, "NoUnit" ;
+    logical_value, 0, "No failure" ;
+    logical_value, 1, "Failure" ;
+  }
+  Enc_RSCU_Lin2Fr1_RSCU1_RRCushionNTC_Failure {
+    physical_value, 0, 1, 1, 0, "NoUnit" ;
+    logical_value, 0, "No failure" ;
+    logical_value, 1, "Failure" ;
+  }
+  Enc_RSCU_Lin2Fr1_RSCU1_RRBackrestNTC_Failure {
+    physical_value, 0, 1, 1, 0, "NoUnit" ;
+    logical_value, 0, "No failure" ;
+    logical_value, 1, "Failure" ;
+  }
+  Enc_RSCU_Lin2Fr1_RSCU1_RLCushionHeat_Failure {
+    physical_value, 0, 1, 1, 0, "NoUnit" ;
+    logical_value, 0, "No failure" ;
+    logical_value, 1, "Failure" ;
+  }
+  Enc_RSCU_Lin2Fr1_RSCU1_RLBackrestHeat_Failure {
+    physical_value, 0, 1, 1, 0, "NoUnit" ;
+    logical_value, 0, "No failure" ;
+    logical_value, 1, "Failure" ;
+  }
+  Enc_RSCU_Lin2Fr1_RSCU1_RRCushionHeat_Failure {
+    physical_value, 0, 1, 1, 0, "NoUnit" ;
+    logical_value, 0, "No failure" ;
+    logical_value, 1, "Failure" ;
+  }
+  Enc_RSCU_Lin2Fr1_RSCU1_RRBackrestHeat_Failure {
+    physical_value, 0, 1, 1, 0, "NoUnit" ;
+    logical_value, 0, "No failure" ;
+    logical_value, 1, "Failure" ;
+  }
+  Enc_RSCU_Lin2Fr1_RSCU1_RLVentilating_Failure {
+    physical_value, 0, 1, 1, 0, "NoUnit" ;
+    logical_value, 0, "No failure" ;
+    logical_value, 1, "Failure" ;
+  }
+  Enc_RSCU_Lin2Fr1_RSCU1_RRVentilating_Failure {
+    physical_value, 0, 1, 1, 0, "NoUnit" ;
+    logical_value, 0, "No failure" ;
+    logical_value, 1, "Failure" ;
+  }
+  Enc_RSCU_Lin2Fr1_RSCU1_RLBackrestAngleRelay_Failure {
+    physical_value, 0, 1, 1, 0, "NoUnit" ;
+    logical_value, 0, "No failure" ;
+    logical_value, 1, "Failure" ;
+  }
+  Enc_RSCU_Lin2Fr1_RSCU1_RRVBackrestAngleRelay_Failure {
+    physical_value, 0, 1, 1, 0, "NoUnit" ;
+    logical_value, 0, "No failure" ;
+    logical_value, 1, "Failure" ;
+  }
+  Enc_RSCU_Lin2Fr1_RSCU1_RLBackrestHall_Failure {
+    physical_value, 0, 1, 1, 0, "NoUnit" ;
+    logical_value, 0, "No failure" ;
+    logical_value, 1, "Failure" ;
+  }
+  Enc_RSCU_Lin2Fr1_RSCU1_RRBackrestHall_Failure {
+    physical_value, 0, 1, 1, 0, "NoUnit" ;
+    logical_value, 0, "No failure" ;
+    logical_value, 1, "Failure" ;
+  }
+  Enc_BDCS_Lin2Fr3_IGN_State {
+    physical_value, 0, 3, 1, 0, "NoUnit" ;
+    logical_value, 0, "OFF" ;
+    logical_value, 1, "ACC" ;
+    logical_value, 2, "ON" ;
+    logical_value, 3, "Start" ;
+  }
+  Enc_BDCS_Lin2Fr3_AlarmMode {
+    physical_value, 0, 1, 1, 0, "NoUnit" ;
+    logical_value, 0, "No_AntiTheft" ;
+    logical_value, 1, "AntiTheft" ;
+  }
+  Enc_BDCS_Lin2Fr3_FL_door_Sts {
+    physical_value, 0, 1, 1, 0, "NoUnit" ;
+    logical_value, 0, "Close" ;
+    logical_value, 1, "Open" ;
+  }
+  Enc_BDCS_Lin2Fr3_FR_door_Sts {
+    physical_value, 0, 1, 1, 0, "NoUnit" ;
+    logical_value, 0, "Close" ;
+    logical_value, 1, "Open" ;
+  }
+  Enc_BDCS_Lin2Fr3_RL_door_Sts {
+    physical_value, 0, 1, 1, 0, "NoUnit" ;
+    logical_value, 0, "Close" ;
+    logical_value, 1, "Open" ;
+  }
+  Enc_BDCS_Lin2Fr3_RR_door_Sts {
+    physical_value, 0, 1, 1, 0, "NoUnit" ;
+    logical_value, 0, "Close" ;
+    logical_value, 1, "Open" ;
+  }
+  Enc_BDCS_Lin2Fr3_Trunk_Sts {
+    physical_value, 0, 1, 1, 0, "NoUnit" ;
+    logical_value, 0, "Close" ;
+    logical_value, 1, "Open" ;
+  }
+  Enc_BDCS_Lin2Fr3_CLM_offCmd {
+    physical_value, 0, 1, 1, 0, "NoUnit" ;
+    logical_value, 0, "Inactive" ;
+    logical_value, 1, "Active" ;
+  }
+  Enc_CO2_Lin2Fr1_ResponseError {
+    physical_value, 0, 1, 1, 0, "NoUnit" ;
+    logical_value, 0, "No Error" ;
+    logical_value, 1, "Error occurred" ;
+  }
+  Enc_CO2_Lin2Fr1_CO2Value {
+    physical_value, 0, 5000, 1, 0, "ugNoUnitm?" ;
+  }
+  Enc_CO2_Lin2Fr1_DensityStatus {
+    physical_value, 0, 3, 1, 0, "NoUnit" ;
+    logical_value, 0, "正常浓度" ;
+    logical_value, 1, "车辆运行时浓度过高" ;
+    logical_value, 2, "车辆停止运行时浓度过高" ;
+    logical_value, 3, "取消浓度过高报警" ;
+  }
+  Enc_CO2_Lin2Fr1_Life_status {
+    physical_value, 0, 3, 1, 0, "NoUnit" ;
+    logical_value, 0, "上电正常" ;
+    logical_value, 1, "下电正常" ;
+    logical_value, 2, "生命遗留报警" ;
+    logical_value, 3, "传感器测量停止" ;
+  }
+  Enc_CO2_Lin2Fr1_sensor_status {
+    physical_value, 0, 3, 1, 0, "NoUnit" ;
+    logical_value, 0, "正常" ;
+    logical_value, 1, "传感器受限" ;
+    logical_value, 2, "传感器故障" ;
+  }
+}
+
+Signal_representation {
+  Enc_BDCS_Lin2Fr2_BDCS2_DGSW: BDCS2_DGSW ;
+  Enc_BDCS_Lin2Fr2_BDCS2_DGPercentCtrl: BDCS2_DGPercentCtrl ;
+  Enc_BDCS_Lin2Fr2_BDCS2_CatchBoltStatus: BDCS2_CatchBoltStatus ;
+  Enc_BDCS_Lin2Fr2_BDCS2_CMD_AutoWiper: BDCS2_CMD_AutoWiper ;
+  Enc_BDCS_Lin2Fr2_BDCS2_RQ_FrontWash: BDCS2_RQ_FrontWash ;
+  Enc_BDCS_Lin2Fr2_BDCS2_ParkPosition: BDCS2_ParkPosition ;
+  Enc_BDCS_Lin2Fr2_BDCS2_RainSensitivity: BDCS2_RainSensitivity ;
+  Enc_BDCS_Lin2Fr2_BDCS2_CloseWinEnableCtrl: BDCS2_CloseWinEnableCtrl ;
+  Enc_BDCS_Lin2Fr2_BDCS2_RLS_WiperGear: BDCS2_RLS_WiperGear ;
+  Enc_BDCS_Lin2Fr2_CDCS5_DGM_AutoSW: CDCS5_DGM_AutoSW ;
+  Enc_BDCS_Lin2Fr2_CDCS8_RLSeatBackrestAdjCmd: CDCS8_RLSeatBackrestAdjCmd ;
+  Enc_BDCS_Lin2Fr2_TBOX4_LRSeatHeaterCmd: TBOX4_LRSeatHeaterCmd ;
+  Enc_BDCS_Lin2Fr2_TBOX4_RRSeatHeaterCmd: TBOX4_RRSeatHeaterCmd ;
+  Enc_BDCS_Lin2Fr2_CDCS8_LRSeatHeaterCmd: CDCS8_LRSeatHeaterCmd ;
+  Enc_BDCS_Lin2Fr2_CDCS8_RRSeatHeaterCmd: CDCS8_RRSeatHeaterCmd ;
+  Enc_BDCS_Lin2Fr2_CDCS5_DGM_IntelligentProtectionSW: CDCS5_DGM_IntelligentProtectionSW ;
+  Enc_BDCS_Lin2Fr2_BDCS2_RearSeatHeating_Configuration: BDCS2_RearSeatHeating_Configuration ;
+  Enc_BDCS_Lin2Fr2_BDCS2_RearSeatVentilating_configuration: BDCS2_RearSeatVentilating_configuration ;
+  Enc_BDCS_Lin2Fr2_CDCS8_RRSeatBackrestAdjCmd: CDCS8_RRSeatBackrestAdjCmd ;
+  Enc_BDCS_Lin2Fr2_BDCS2_RLSeatVentCmd: BDCS2_RLSeatVentCmd ;
+  Enc_BDCS_Lin2Fr2_BDCS2_RRSeatVentCmd: BDCS2_RRSeatVentCmd ;
+  Enc_BDCS_Lin2Fr1_BDCS1_VehicleType: BDCS1_VehicleType ;
+  Enc_BDCS_Lin2Fr1_BDCS1_PowerMode: BDCS1_PowerMode ;
+  Enc_BDCS_Lin2Fr1_BDCS1_IDB3_VehicleSpd: BDCS1_IDB3_VehicleSpd ;
+  Enc_BDCS_Lin2Fr1_BDCS1_IDB3_VehicleSpdValid: BDCS1_IDB3_VehicleSpdValid ;
+  Enc_BDCS_Lin2Fr1_BDCS1_AC_OutsideTempValid: BDCS1_AC_OutsideTempValid ;
+  Enc_BDCS_Lin2Fr1_BDCS1_AC_OutsideTemp: BDCS1_AC_OutsideTemp ;
+  Enc_BDCS_Lin2Fr1_BDCS1_ACU1_CrashStatus: BDCS1_ACU1_CrashStatus ;
+  Enc_BDCS_Lin2Fr1_BDCS1_AlarmMode: BDCS1_AlarmMode ;
+  Enc_BDCS_Lin2Fr1_BDCS1_Backlight_brightness_fb: BDCS1_Backlight_brightness_fb ;
+  Enc_BDCS_Lin2Fr1_BDCS1_BacklightStatus: BDCS1_BacklightStatus ;
+  Enc_BDCS_Lin2Fr1_BDCS1_TrunkLockSts: BDCS1_TrunkLockSts ;
+  Enc_BDCS_Lin2Fr1_DDCU1_FLDoorAjar: DDCU1_FLDoorAjar ;
+  Enc_BDCS_Lin2Fr1_DDCU1_RLDoorAjar: DDCU1_RLDoorAjar ;
+  Enc_BDCS_Lin2Fr1_PDCU1_FRDoorAjar: PDCU1_FRDoorAjar ;
+  Enc_BDCS_Lin2Fr1_PDCU1_RRDoorAjar: PDCU1_RRDoorAjar ;
+  Enc_DGM_Lin2Fr1_DGM_ResponseError: DGM_ResponseError ;
+  Enc_DGM_Lin2Fr1_DGM_IntelligentProtectionSt: DGM_IntelligentProtectionSt ;
+  Enc_DGM_Lin2Fr1_DGM_SWSts: DGM_SWSts ;
+  Enc_DGM_Lin2Fr1_DGM_overCurrent: DGM_overCurrent ;
+  Enc_DGM_Lin2Fr1_DGM_AutoSWSts: DGM_AutoSWSts ;
+  Enc_DGM_Lin2Fr1_DGM_percentSts: DGM_percentSts ;
+  Enc_DGM_Lin2Fr1_DGM_AdjustedPercentage: DGM_AdjustedPercentage ;
+  Enc_KS_Lin2Fr1_KS_ResponseError: KS_ResponseError ;
+  Enc_KS_Lin2Fr1_KS_KickDetected: KS_KickDetected ;
+  Enc_KS_Lin2Fr1_KS_VehicleTypeUnknown: KS_VehicleTypeUnknown ;
+  Enc_KS_Lin2Fr1_KS_SensorStatus: KS_SensorStatus ;
+  Enc_RLS_Lin2Fr1_RLS1_ResponseError: RLS1_ResponseError ;
+  Enc_RLS_Lin2Fr1_RLS1_RQ_WiperSPD: RLS1_RQ_WiperSPD ;
+  Enc_RLS_Lin2Fr1_RLS1_RQ_LowBeam: RLS1_RQ_LowBeam ;
+  Enc_RLS_Lin2Fr1_RLS1_Day_or_night_state: RLS1_Day_or_night_state ;
+  Enc_RLS_Lin2Fr1_RLS1_Fault_Rain: RLS1_Fault_Rain ;
+  Enc_RLS_Lin2Fr1_RLS1_Fault_Light: RLS1_Fault_Light ;
+  Enc_RLS_Lin2Fr1_RLS1_Win_Close_Cmd: RLS1_Win_Close_Cmd ;
+  Enc_RLS_Lin2Fr1_RLS1_Solar_Driver: RLS1_Solar_Driver ;
+  Enc_RLS_Lin2Fr1_RLS1_Solar_Passenger: RLS1_Solar_Passenger ;
+  Enc_RLS_Lin2Fr1_RLS1_Solar_Error: RLS1_Solar_Error ;
+  Enc_RLS_Lin2Fr2_RLS2_HUDBrightnessRawValue: RLS2_HUDBrightnessRawValue ;
+  Enc_RLS_Lin2Fr2_RLS2_HUDBrightnessUnit: RLS2_HUDBrightnessUnit ;
+  Enc_RLS_Lin2Fr2_RLS2_Fault_HUDBrightness: RLS2_Fault_HUDBrightness ;
+  Enc_RLS_Lin2Fr2_RLS2_Humid: RLS2_Humid ;
+  Enc_RLS_Lin2Fr2_RLS2_Temperature: RLS2_Temperature ;
+  Enc_RLS_Lin2Fr2_RLS2_TempDewPoint: RLS2_TempDewPoint ;
+  Enc_RLS_Lin2Fr2_RLS2_Humid_Temp_Error: RLS2_Humid_Temp_Error ;
+  Enc_RATS_Lin2Fr1_RATS1_ResponseError: RATS1_ResponseError ;
+  Enc_RATS_Lin2Fr1_RATS1_RLSeatBackrestAdjCmd: RATS1_RLSeatBackrestAdjCmd ;
+  Enc_RATS_Lin2Fr1_RATS1_RRSeatBackrestAdjCmd: RATS1_RRSeatBackrestAdjCmd ;
+  Enc_RATS_Lin2Fr1_RATS1_ErrorSts: RATS1_ErrorSts ;
+  Enc_RATS_Lin2Fr1_RATS1_RLSeatHeaterCmd: RATS1_RLSeatHeaterCmd ;
+  Enc_RATS_Lin2Fr1_RATS1_RRSeatHeaterCmd: RATS1_RRSeatHeaterCmd ;
+  Enc_RATS_Lin2Fr1_RATS1_RLSeatVentCmd: RATS1_RLSeatVentCmd ;
+  Enc_RATS_Lin2Fr1_RATS1_RRSeatVentCmd: RATS1_RRSeatVentCmd ;
+  Enc_RATS_Lin2Fr1_RATS1_Voltage_errorCode: RATS1_Voltage_errorCode ;
+  Enc_RATS_Lin2Fr1_RATS1_Capsense_errorCode: RATS1_Capsense_errorCode ;
+  Enc_RATS_Lin2Fr1_RATS1_Motor_errorCode: RATS1_Motor_errorCode ;
+  Enc_RATS_Lin2Fr1_RATS1_DFGLS_ButtonSoundRequest: RATS1_DFGLS_ButtonSoundRequest ;
+  Enc_RSCU_Lin2Fr1_RSCU1_ResponseError: RSCU1_ResponseError ;
+  Enc_RSCU_Lin2Fr1_RSCU1_RL_Heating_Status: RSCU1_RL_Heating_Status ;
+  Enc_RSCU_Lin2Fr1_RSCU1_RR_Heating_Status: RSCU1_RR_Heating_Status ;
+  Enc_RSCU_Lin2Fr1_RSCU1_RL_Venting_Status_Reserved: RSCU1_RL_Venting_Status_Reserved ;
+  Enc_RSCU_Lin2Fr1_RSCU1_RR_Venting_Status: RSCU1_RR_Venting_Status ;
+  Enc_RSCU_Lin2Fr1_RSCU1_RLCushionNTC_Failure: RSCU1_RLCushionNTC_Failure ;
+  Enc_RSCU_Lin2Fr1_RSCU1_RLBackrestNTC_Failure: RSCU1_RLBackrestNTC_Failure ;
+  Enc_RSCU_Lin2Fr1_RSCU1_RRCushionNTC_Failure: RSCU1_RRCushionNTC_Failure ;
+  Enc_RSCU_Lin2Fr1_RSCU1_RRBackrestNTC_Failure: RSCU1_RRBackrestNTC_Failure ;
+  Enc_RSCU_Lin2Fr1_RSCU1_RLCushionHeat_Failure: RSCU1_RLCushionHeat_Failure ;
+  Enc_RSCU_Lin2Fr1_RSCU1_RLBackrestHeat_Failure: RSCU1_RLBackrestHeat_Failure ;
+  Enc_RSCU_Lin2Fr1_RSCU1_RRCushionHeat_Failure: RSCU1_RRCushionHeat_Failure ;
+  Enc_RSCU_Lin2Fr1_RSCU1_RRBackrestHeat_Failure: RSCU1_RRBackrestHeat_Failure ;
+  Enc_RSCU_Lin2Fr1_RSCU1_RLVentilating_Failure: RSCU1_RLVentilating_Failure ;
+  Enc_RSCU_Lin2Fr1_RSCU1_RRVentilating_Failure: RSCU1_RRVentilating_Failure ;
+  Enc_RSCU_Lin2Fr1_RSCU1_RLBackrestAngleRelay_Failure: RSCU1_RLBackrestAngleRelay_Failure ;
+  Enc_RSCU_Lin2Fr1_RSCU1_RRVBackrestAngleRelay_Failure: RSCU1_RRVBackrestAngleRelay_Failure ;
+  Enc_RSCU_Lin2Fr1_RSCU1_RLBackrestHall_Failure: RSCU1_RLBackrestHall_Failure ;
+  Enc_RSCU_Lin2Fr1_RSCU1_RRBackrestHall_Failure: RSCU1_RRBackrestHall_Failure ;
+  Enc_BDCS_Lin2Fr3_IGN_State: IGN_State ;
+  Enc_BDCS_Lin2Fr3_AlarmMode: AlarmMode ;
+  Enc_BDCS_Lin2Fr3_FL_door_Sts: FL_door_Sts ;
+  Enc_BDCS_Lin2Fr3_FR_door_Sts: FR_door_Sts ;
+  Enc_BDCS_Lin2Fr3_RL_door_Sts: RL_door_Sts ;
+  Enc_BDCS_Lin2Fr3_RR_door_Sts: RR_door_Sts ;
+  Enc_BDCS_Lin2Fr3_Trunk_Sts: Trunk_Sts ;
+  Enc_BDCS_Lin2Fr3_CLM_offCmd: CLM_offCmd ;
+  Enc_CO2_Lin2Fr1_ResponseError: ResponseError ;
+  Enc_CO2_Lin2Fr1_CO2Value: CO2Value ;
+  Enc_CO2_Lin2Fr1_DensityStatus: DensityStatus ;
+  Enc_CO2_Lin2Fr1_Life_status: Life_status ;
+  Enc_CO2_Lin2Fr1_sensor_status: sensor_status ;
+}
+

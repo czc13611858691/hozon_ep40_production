@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<Panel Type="Vector.CANalyzer.Panels.PanelSerializer, Vector.CANalyzer.Panels.Serializer, Version=11.0.81.0, Culture=neutral, PublicKeyToken=null">
+  <Object Type="Vector.CANalyzer.Panels.Runtime.Panel, Vector.CANalyzer.Panels.Common, Version=11.0.81.0, Culture=neutral, PublicKeyToken=null" Name="Panel" Children="Controls" ControlName="Bootloader">
+    <Object Type="Vector.CANalyzer.Panels.Design.ButtonControl, Vector.CANalyzer.Panels.CommonControls, Version=11.0.81.0, Culture=neutral, PublicKeyToken=null" Name="ButtonControl3" Children="Controls" ControlName="Update_on_boot">
+      <Property Name="Name">ButtonControl3</Property>
+      <Property Name="Size">86, 23</Property>
+      <Property Name="Location">203, 18</Property>
+      <Property Name="Text">更新程序boot</Property>
+      <Property Name="SymbolConfiguration">5;16;Panel;;;P_Start_B;1;;;-1;;;</Property>
+      <Property Name="TabIndex">7</Property>
+    </Object>
+    <Object Type="Vector.CANalyzer.Panels.Design.ButtonControl, Vector.CANalyzer.Panels.CommonControls, Version=11.0.81.0, Culture=neutral, PublicKeyToken=null" Name="ButtonControl2" Children="Controls" ControlName="ECU_Reset">
+      <Property Name="Name">ButtonControl2</Property>
+      <Property Name="Size">85, 23</Property>
+      <Property Name="Location">112, 18</Property>
+      <Property Name="Text">复位ECU</Property>
+      <Property Name="SymbolConfiguration">5;16;Panel;;;P_Reset;1;;;-1;;;</Property>
+      <Property Name="TabIndex">6</Property>
+    </Object>
+    <Object Type="Vector.CANalyzer.Panels.Design.ComboBoxControl, Vector.CANalyzer.Panels.CommonControls, Version=11.0.81.0, Culture=neutral, PublicKeyToken=null" Name="ComboBoxControl1" Children="Controls" ControlName="Combo Box">
+      <Property Name="Name">ComboBoxControl1</Property>
+      <Property Name="Size">259, 20</Property>
+      <Property Name="Location">295, 18</Property>
+      <Property Name="DropDownWidth">149</Property>
+      <Property Name="BackColor">Window</Property>
+      <Property Name="ForeColor">WindowText</Property>
+      <Property Name="DisplayLabel">Left</Property>
+      <Property Name="DescriptionText">选择安全种子MASK:</Property>
+      <Property Name="UsedValueTable">PhysicalValue</Property>
+      <Property Name="DescriptionSize">110, 22</Property>
+      <Property Name="SymbolConfiguration">5;16;Panel;;;SEED_KEY_MASK;1;;;-1;;;</Property>
+      <Property Name="TabIndex">5</Property>
+    </Object>
+    <Object Type="Vector.CANalyzer.Panels.Design.ProgressBarControl, Vector.CANalyzer.Panels.CommonControls, Version=11.0.81.0, Culture=neutral, PublicKeyToken=null" Name="ProgressBarControl1" Children="Controls" ControlName="Progress Bar">
+      <Property Name="Name">ProgressBarControl1</Property>
+      <Property Name="Size">551, 28</Property>
+      <Property Name="Location">3, 292</Property>
+      <Property Name="OriginValue">0</Property>
+      <Property Name="DecimalPlaces">0</Property>
+      <Property Name="ValueSize">38, 30</Property>
+      <Property Name="SymbolConfiguration">5;16;Panel;;;download_progress;1;;;-1;;;</Property>
+    </Object>
+    <Object Type="Vector.CANalyzer.Panels.Design.CAPLOutputViewControl, Vector.CANalyzer.Panels.CommonControls, Version=11.0.81.0, Culture=neutral, PublicKeyToken=null" Name="CAPLOutputViewControl1" Children="Controls" ControlName="status_display">
+      <Property Name="Name">CAPLOutputViewControl1</Property>
+      <Property Name="Size">551, 208</Property>
+      <Property Name="Location">3, 78</Property>
+      <Property Name="BoxBackgroundColor">White</Property>
+      <Property Name="TabIndex">3</Property>
+    </Object>
+    <Object Type="Vector.CANalyzer.Panels.Design.PathControl, Vector.CANalyzer.Panels.CommonControls, Version=11.0.81.0, Culture=neutral, PublicKeyToken=null" Name="PathControl1" Children="Controls" ControlName="Path Dialog">
+      <Property Name="Name">PathControl1</Property>
+      <Property Name="Size">551, 23</Property>
+      <Property Name="Location">3, 47</Property>
+      <Property Name="FileDlgFilter">hex文件|*.hex*</Property>
+      <Property Name="SymbolConfiguration">5;16;Panel;;;filePath;4;;;-1;;;</Property>
+      <Property Name="TabIndex">2</Property>
+    </Object>
+    <Object Type="Vector.CANalyzer.Panels.Design.ButtonControl, Vector.CANalyzer.Panels.CommonControls, Version=11.0.81.0, Culture=neutral, PublicKeyToken=null" Name="ButtonControl1" Children="Controls" ControlName="Download">
+      <Property Name="Name">ButtonControl1</Property>
+      <Property Name="Size">103, 22</Property>
+      <Property Name="Location">3, 18</Property>
+      <Property Name="Text">更新程序app</Property>
+      <Property Name="SymbolConfiguration">5;16;Panel;;;P_Start;1;;;-1;;;</Property>
+      <Property Name="TabIndex">0</Property>
+    </Object>
+    <Property Name="Name">Panel</Property>
+    <Property Name="Size">558, 326</Property>
+    <Property Name="BackColor">White</Property>
+  </Object>
+</Panel>

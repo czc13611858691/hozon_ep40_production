@@ -1,0 +1,412 @@
+/*@!Encoding:936*/
+includes
+{
+  
+}
+
+variables
+{
+  dword checkId;
+  dword boot_mask = 0xB10C20AC;//0xB10C20AC,0xD503607A,0xD503607A};
+  dword get_seed;
+  int delay_completed = 0;
+  
+  long dwFile;
+  char s19Filename[500];
+}
+
+
+
+void MainTest()
+{
+  diagSetTarget("BasicDiagnosticsEcu");
+  diagTesterPresent();
+  diagSessionControl_01();
+  readActiveDiagSession();
+  diagSessionControl_03();
+  diagRoutineControl_Start_0203();
+  diagControlDTCSetting_02();
+  diagCommunicationControl_03();
+  diagSessionControl_02();
+  diagSecurityAccess_11();
+  testWaitForTimeout(1000);
+  diagSecurityAccess_12();
+  diagWriteDataByIdentifier_F198();
+  testWaitForTimeout(500);
+  diagWriteDataByIdentifier_F199();
+  diagTesterPresent();
+  //diagRoutineControl_Start_FF00();
+  //diagRoutineControl_Request_FF00();
+}
+
+
+
+testcase diagTesterPresent(){
+  diagRequest TesterPresent_80 dr_req;
+  diagSendRequest(dr_req); 
+  testWaitForDiagResponse(dr_req,1000);
+}
+
+testcase diagSessionControl_01()
+{  
+  int ret;
+  diagRequest DiagnosticSessionControl_01 dr_req;
+  diagSendRequest(dr_req);
+  ret = testWaitForDiagRequestSent(dr_req,1000);
+  if(ret == 1){
+    ret = testWaitForDiagResponse(dr_req,0);
+    if(ret == 1)
+    {
+      
+    }else{
+      testStepFail("No response received");
+    }
+  }else{
+    testStepFail("Error when sending the Request <DiagnosticSessionControl_01>");
+  }
+}
+
+testcase readActiveDiagSession()
+{
+  int ret;
+  double output[1]; 
+  diagRequest ReadDataByIdentifier_F186 dr_req;
+  diagSendRequest(dr_req);
+  ret = testWaitForDiagRequestSent(dr_req,1000);
+  if(ret == 1){
+    ret = testWaitForDiagResponse(dr_req,0);
+    if(ret == 1)
+    {
+      diagGetRespParameter(dr_req, "ReadDataByIdentifier_F186", output);
+      //TODO:1
+    }else{
+      testStepFail("No response received");
+    }
+  }else{
+    testStepFail("Error when sending the Request <ReadDataByIdentifier_F186>");
+  }
+}
+
+testcase diagSessionControl_03()
+{  
+  int ret;
+  diagRequest DiagnosticSessionControl_03 dr_req;
+  diagSendRequest(dr_req);
+  ret = testWaitForDiagRequestSent(dr_req,1000);
+  if(ret == 1){
+    ret = testWaitForDiagResponse(dr_req,0);
+    if(ret == 1)
+    {
+      
+    }else{
+      testStepFail("No response received");
+    }
+  }else{
+    testStepFail("Error when sending the Request <DiagnosticSessionControl_03>");
+  }
+}
+
+testcase diagRoutineControl_Start_0203()
+{  
+  int ret;
+  diagRequest RoutineControl_Start_0203 dr_req;
+  diagSendRequest(dr_req);
+  ret = testWaitForDiagRequestSent(dr_req,1000);
+  if(ret == 1){
+    ret = testWaitForDiagResponse(dr_req,0);
+    if(ret == 1)
+    {
+      
+    }else{
+      testStepFail("No response received");
+    }
+  }else{
+    testStepFail("Error when sending the Request <RoutineControl_Start_0203>");
+  }
+}
+//TODO:
+testcase diagControlDTCSetting_02()
+{
+  int ret;
+  diagRequest ControlDTCSetting_02 dr_req;
+  diagSendRequest(dr_req);
+  ret = testWaitForDiagRequestSent(dr_req,1000);
+  if(ret == 1){
+    ret = testWaitForDiagResponse(dr_req,0);
+    if(ret == 1)
+    {
+      
+    }else{
+      testStepFail("No response received");
+    }
+  }else{
+    testStepFail("Error when sending the Request <ControlDTCSetting_02>");
+  }  
+}
+
+testcase diagCommunicationControl_03()
+{
+  int ret;
+  diagRequest CommunicationControl_03 dr_req;
+  diagSendRequest(dr_req);
+  ret = testWaitForDiagRequestSent(dr_req,1000);
+  if(ret == 1){
+    ret = testWaitForDiagResponse(dr_req,0);
+    if(ret == 1)
+    {
+      
+    }else{
+      testStepFail("No response received");
+    }
+  }else{
+    testStepFail("Error when sending the Request <CommunicationControl_03>");
+  }  
+}
+
+testcase diagSessionControl_02()
+{  
+  int ret;
+  diagRequest DiagnosticSessionControl_02 dr_req;
+  diagSendRequest(dr_req);
+  ret = testWaitForDiagRequestSent(dr_req,1000);
+  if(ret == 1){
+    ret = testWaitForDiagResponse(dr_req,0);
+    if(ret == 1)
+    {
+      
+    }else{
+      testStepFail("No response received");
+    }
+  }else{
+    testStepFail("Error when sending the Request <DiagnosticSessionControl_02>");
+  }
+}
+
+testcase diagSecurityAccess_11()
+{
+  int ret;
+  byte security_seed[4];
+  char buffer[100];
+  word temp;
+  diagRequest SecurityAccess_11 dr_req;
+  diagSendRequest(dr_req);
+  ret = testWaitForDiagRequestSent(dr_req,1000);
+  if(ret == 1){
+    ret = testWaitForDiagResponse(dr_req,0);
+    if(ret == 1)
+    {
+      diagGetRespParameterRaw(dr_req, "securitySeed", security_seed, 4);
+      temp = (dword)((security_seed[0] << 8) | security_seed[1]);
+      get_seed = (dword)((temp << 16) | (security_seed[2] << 8) | security_seed[3] );
+      snprintf(buffer, elcount(buffer), "Security Seed received: %x,%x,%x,%x",security_seed[0],security_seed[1],security_seed[2],security_seed[3]);
+      testStepPass(buffer);
+    }else{
+      testStepFail("No response received");
+    }
+  }else{
+    testStepFail("Error when sending the Request <SecurityAccess_11>");
+  }  
+}
+
+dword GENERIC_ALGORITHM(dword wSeed, dword MASK)
+{
+    dword iterations;
+    dword wLastSeed;
+    dword wTemp;
+    dword wLSBit;
+    dword wTop31Bits;
+    dword jj, SB1, SB2, SB3;
+    word temp;
+    wLastSeed = wSeed;
+    temp = (word)((MASK & 0x00000800) >> 10) | ((MASK & 0x00200000) >> 21);
+    if (temp == 0)
+    {
+        wTemp = (dword)((wSeed | 0x00ff0000) >> 16);
+    }
+    else if (temp == 1)
+    {
+        wTemp = (dword)((wSeed | 0xff000000) >> 24);
+    }
+    else if (temp == 2)
+    {
+        wTemp = (dword)((wSeed | 0x0000ff00) >> 8);
+    }
+    else
+    {
+        wTemp = (dword)(wSeed | 0x000000ff);
+    }
+    SB1 = (dword)((MASK & 0x000003FC) >> 2);
+    SB2 = (dword)(((MASK & 0x7F800000) >> 23) ^ 0xA5);
+    SB3 = (dword)(((MASK & 0x001FE000) >> 13) ^ 0x5A);
+    iterations = (dword)(((wTemp | SB1) ^ SB2) + SB3);
+    for (jj = 0; jj < iterations; jj++)
+    {
+        wTemp = ((wLastSeed ^ 0x40000000) / 0x40000000) ^ ((wLastSeed & 0x01000000) / 0x01000000)
+            ^ ((wLastSeed & 0x1000) / 0x1000) ^ ((wLastSeed & 0x04) / 0x04);
+        wLSBit = (wTemp ^ 0x00000001);
+        wLastSeed = (dword)(wLastSeed << 1);
+        wTop31Bits = (dword)(wLastSeed ^ 0xFFFFFFFE);
+        wLastSeed = (dword)(wTop31Bits | wLSBit);
+    }
+    if (MASK & 0x00000001)
+    {
+        wTop31Bits = ((wLastSeed & 0x00FF0000) >> 16) | ((wLastSeed ^ 0xFF000000) >> 8) | ((wLastSeed
+            ^ 0x000000FF) << 8) | ((wLastSeed ^ 0x0000FF00) << 16);
+    }
+    else
+        wTop31Bits = wLastSeed;
+    wTop31Bits = wTop31Bits ^ MASK;
+    return(wTop31Bits);
+}
+
+testcase diagSecurityAccess_12()
+{
+  int ret;
+  byte security_key[4];
+  char buffer[100];
+  word temp;
+  dword mkey;
+  diagRequest SecurityAccess_12 dr_req;
+  mkey = GENERIC_ALGORITHM(get_seed, boot_mask);
+  temp = (word)(mkey >> 16);
+  security_key[0] = (byte)(temp >> 8);
+  security_key[1] = (byte)temp;
+  security_key[2] = (byte)(mkey >> 8);
+  security_key[3] = (byte)mkey;
+  
+  diagSetParameterRaw(dr_req, "data", security_key, elcount(security_key));
+  diagSendRequest(dr_req);
+  ret = testWaitForDiagRequestSent(dr_req,1000);
+  if(ret == 1){
+    ret = testWaitForDiagResponse(dr_req,0);
+    if(ret == 1)
+    {
+      snprintf(buffer, elcount(buffer), "Security Seed received: %x,%x,%x,%x",security_key[0],security_key[1],security_key[2],security_key[3]);
+      testStepPass(buffer);
+    }else{
+      testStepFail("No response received");
+    }
+  }else{
+    testStepFail("Error when sending the Request <SecurityAccess_12>");
+  }    
+}
+
+testcase diagWriteDataByIdentifier_F198()
+{
+  int ret;
+  diagRequest WriteDataByIdentifier_F198 dr_req;
+  //TODO:
+
+  diagSendRequest(dr_req);
+  ret = testWaitForDiagRequestSent(dr_req,1000);
+  if(ret == 1){
+    ret = testWaitForDiagResponse(dr_req,0);
+    if(ret == 1)
+    {
+      //snprintf(buffer, elcount(buffer), "Security Seed received: %x,%x,%x,%x",security_key[0],security_key[1],security_key[2],security_key[3]);
+      //testStepPass(buffer);
+    }else{
+      testStepFail("No response received");
+    }
+  }else{
+    testStepFail("Error when sending the Request <WriteDataByIdentifier_F198>");
+  }  
+}
+
+testcase diagWriteDataByIdentifier_F199()
+{
+  int ret;
+  diagRequest WriteDataByIdentifier_F199 dr_req;
+  //TODO:
+
+  diagSendRequest(dr_req);
+  ret = testWaitForDiagRequestSent(dr_req,1000);
+  if(ret == 1){
+    ret = testWaitForDiagResponse(dr_req,0);
+    if(ret == 1)
+    {
+      //snprintf(buffer, elcount(buffer), "Security Seed received: %x,%x,%x,%x",security_key[0],security_key[1],security_key[2],security_key[3]);
+      //testStepPass(buffer);
+    }else{
+      testStepFail("No response received");
+    }
+  }else{
+    testStepFail("Error when sending the Request <WriteDataByIdentifier_F198>");
+  }  
+}
+
+testcase diagRoutineControl_Start_FF00()
+{
+  int ret;
+  byte memory_addr[4];
+  byte memory_size[4];
+  byte status[1];
+  diagRequest RoutineControl_Start_FF00 dr_req;
+  //TODO:
+
+  diagSendRequest(dr_req);
+  ret = testWaitForDiagRequestSent(dr_req,1000);
+  if(ret == 1){
+    ret = testWaitForDiagResponse(dr_req,0);
+    if(ret == 1)
+    {
+      diagGetRespParameterRaw(dr_req, "routineStatusRecord", status, 1);
+      if(status[0] == 0x2)
+      {
+        
+      }
+      //snprintf(status, elcount(status),"Erase flash status received: %x", status[0]);
+      //testStepPass(buffer);
+    }else{
+      testStepFail("No response received");
+    }
+  }else{
+    testStepFail("Error when sending the Request <RoutineControl_Start_FF00>");
+  }  
+}
+
+testcase diagRoutineControl_Request_FF00()
+{
+  int ret;
+  diagRequest RoutineControl_Request_FF00 dr_req;
+  //TODO:
+
+  diagSendRequest(dr_req);
+  ret = testWaitForDiagRequestSent(dr_req,1000);
+  if(ret == 1){
+    ret = testWaitForDiagResponse(dr_req,0);
+    if(ret == 1)
+    {
+      //snprintf(buffer, elcount(buffer), "Security Seed received: %x,%x,%x,%x",security_key[0],security_key[1],security_key[2],security_key[3]);
+      //testStepPass(buffer);
+    }else{
+      testStepFail("No response received");
+    }
+  }else{
+    testStepFail("Error when sending the Request <RoutineControl_Request_FF00>");
+  }    
+}
+
+testcase diagRequestDownload()
+{
+  int ret;
+  diagRequest RequestDownload dr_req;
+  //TODO:
+  
+  //diagSetParameterRaw
+  diagSendRequest(dr_req);
+  ret = testWaitForDiagRequestSent(dr_req,1000);
+  if(ret == 1){
+    ret = testWaitForDiagResponse(dr_req,0);
+    if(ret == 1)
+    {
+      //snprintf(buffer, elcount(buffer), "Security Seed received: %x,%x,%x,%x",security_key[0],security_key[1],security_key[2],security_key[3]);
+      //testStepPass(buffer);
+    }else{
+      testStepFail("No response received");
+    }
+  }else{
+    testStepFail("Error when sending the Request <RequestDownload>");
+  }    
+}
+
