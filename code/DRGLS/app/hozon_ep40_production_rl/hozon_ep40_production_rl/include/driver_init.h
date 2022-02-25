@@ -1,7 +1,7 @@
 /**
  * \file
  *
- * \brief Driver ISR.
+ * \brief Driver initialization.
  *
  (c) 2020 Microchip Technology Inc. and its subsidiaries.
 
@@ -33,66 +33,41 @@
  * to avoid losing it when reconfiguring.
  */
 
-#include <driver_init.h>
+#ifndef DRIVER_INIT_H_INCLUDED
+#define DRIVER_INIT_H_INCLUDED
+
 #include <compiler.h>
-#include "soft_timer.h"
-#include "lin_driver.h"
-#include "lin.h"
-#include "target.h"
-#include "touch.h"
+#include <clock_config.h>
+#include <port.h>
+#include <atmel_start_pins.h>
 
-/* lin RX接收到一个完整数据产生的中断 */
-ISR(USART4_RXC_vect)
+#include <clkctrl.h>
 
-{
-   uint8_t index;
-   index = (USART4.STATUS & USART_ISFIF_bm) >> USART_ISFIF_bp;
-   if (index == 1)
-   {
-      LIN_DRV_IRQHandler(0, -1);
-      USART4.STATUS |= USART_ISFIF_bm;
-      return;
-   }
+#include <usart_basic.h>
 
-   index = (USART4.RXDATAH & USART_DATA8_bm) >> USART_DATA8_bp;
-   if (index == 0) /* is pid */
-   {
-      LIN_DRV_IRQHandler(0, 1);
-      USART4.STATUS |= USART_ISFIF_bm;
-      return;
-   }
+#include <slpctrl.h>
+#include <cpuint.h>
 
-   index = (USART4.RXDATAH & USART_FERR_bm) >> USART_FERR_bp;
-   if (index == 1)
-   {
-      // g_lin_protocol_state_array[0].error_in_response = 1;
-      LIN_DRV_IRQHandler(0, -2);
-   }
+#include <interrupt_avr8.h>
+#include <tca.h>
 
-   LIN_DRV_IRQHandler(0, 0);
-   USART4.STATUS |= USART_ISFIF_bm;
+#include <rtc.h>
+
+#include "nvmctrl_basic.h"
+
+#include <interrupt_avr8.h>
+#include <tcb.h>
+
+#include <bod.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+void system_init(void);
+
+#ifdef __cplusplus
 }
+#endif
 
-
-ISR(RTC_CNT_vect)
-{
-
-	/* Insert your RTC Compare interrupt handling code */
-	touch_timer_handler();
-
-	/* Compare interrupt flag has to be cleared manually */
-	RTC.INTFLAGS = RTC_CMP_bm;
-}
-
-ISR(TCB0_INT_vect)
-{
-   lin_lld_timeout_service(0);
-   g_soft_timer_ticks++;
-   TCB0.INTFLAGS = TCB_CAPT_bm;
-}
-
-ISR(TCB1_INT_vect)
-{
-
-	TCB1.INTFLAGS = TCB_CAPT_bm;
-}
+#endif /* DRIVER_INIT_H_INCLUDED */

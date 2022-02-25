@@ -1,0 +1,730 @@
+/*@!Encoding:936*/
+variables
+{
+  msTimer delayTimer;
+  struct Block {
+    dword   BlockStartAddr;       //数据开始的地址
+    dword BlockDataLength;        //数据的长度
+    byte dataBuffer[0x20000];   //数据区域(单块数据的Buffer，如果hex文件很大，则需要把次参数调大)
+  };  
+  struct Block hexfile[5];      //创建5个数据块(主要根据HEX文件进行调整，hex有几个数据块就需要设置几个)
+  int HexBlockTotalNumber = 0;  //数据块总数
+  dword t1;                     //计算解析所用的时间
+  long dwFile;
+  char hexFileName[500];
+  char display_str[200];
+  
+  long transferData_idx=0;
+  
+  int boot_mask_id = 0;
+  dword boot_mask[5] = {0xB10C20AC,0xB10C20AC,0xD503607A,0xD503607A,0x320B806B};
+  dword security_seed;
+  dword security_key;
+  
+  dword download_time;
+  
+  int security_time_cnt;
+  
+  enum{
+    TesterPresent = 0,
+    Extended_Session,
+    CheckProgramEnvironment,
+    Disable_DTC,
+    Disable_Communication,
+    Programming_Session,
+    Pending_Programming,
+    Security_Access_Seed,
+    MCU_Calculate_Delay,
+    Security_Access_Key,
+    Erase_Flash,
+    Pending_Erase,
+    Request_Download,
+    Transfer_Data,
+    Transfer_Exit,
+    Start_Check_Program,
+    Request_Check_Result,
+    Reset,
+    Stop,
+    Delay1s
+  }prog_step = Extended_Session;
+  
+  enum{
+    PROG_NOT_STARTED,
+    PROG_INPROGRESS,
+    PROG_STOPED
+  }prog_status = PROG_NOT_STARTED;
+  
+  enum{
+    Pre_programming,
+    Programming,
+    Post_Programming
+  }programming_state;
+  
+  long MEM_START_ADDR = 0x006400;
+  long MEM_END_ADDR   = 0x001FFF;
+  long MEM_SIZE   = 0;
+  
+  byte sequence_num=1;
+  
+  diagRequest TesterPresent_80 dr_present;
+  diagRequest DiagnosticSessionControl_01 dr_set_session01;
+  diagRequest DiagnosticSessionControl_03 dr_set_session03;
+  diagRequest ReadDataByIdentifier_F186 dr_read_seesion;
+  diagRequest RoutineControl_Start_0203 dr_check_prog_env;
+  diagRequest ControlDTCSetting_02 dr_dtc_set;
+  diagRequest CommunicationControl_03 dr_disable_comm;
+  diagRequest DiagnosticSessionControl_02 dr_set_session02;
+  diagRequest SecurityAccess_11 dr_req_seed;
+  diagRequest SecurityAccess_12 dr_send_key;
+  diagRequest RoutineControl_Start_FF00 dr_erase_flash;
+  diagRequest RoutineControl_Request_FF00 dr_pending_erase;
+  diagRequest RequestDownload dr_req_download;
+  diagRequest TransferData dr_transfer_data;
+  diagRequest RequestTransferExit dr_download_exit;
+  diagRequest RoutineControl_Start_FF01 dr_start_check_prog;
+  diagRequest RoutineControl_Requset_FF01 dr_req_check_prog;
+  diagRequest EcuReset dr_ecu_rest;
+  
+  word crctab[256] = {
+    0x0000, 0x1021, 0x2042, 0x3063, 0x4084, 0x50A5, 0x60C6, 0x70E7,
+    0x8108, 0x9129, 0xA14A, 0xB16B, 0xC18C, 0xD1AD, 0xE1CE, 0xF1EF,
+    0x1231, 0x0210, 0x3273, 0x2252, 0x52B5, 0x4294, 0x72F7, 0x62D6,
+    0x9339, 0x8318, 0xB37B, 0xA35A, 0xD3BD, 0xC39C, 0xF3FF, 0xE3DE,
+    0x2462, 0x3443, 0x0420, 0x1401, 0x64E6, 0x74C7, 0x44A4, 0x5485,
+    0xA56A, 0xB54B, 0x8528, 0x9509, 0xE5EE, 0xF5CF, 0xC5AC, 0xD58D,
+    0x3653, 0x2672, 0x1611, 0x0630, 0x76D7, 0x66F6, 0x5695, 0x46B4,
+    0xB75B, 0xA77A, 0x9719, 0x8738, 0xF7DF, 0xE7FE, 0xD79D, 0xC7BC,
+    0x48C4, 0x58E5, 0x6886, 0x78A7, 0x0840, 0x1861, 0x2802, 0x3823,
+    0xC9CC, 0xD9ED, 0xE98E, 0xF9AF, 0x8948, 0x9969, 0xA90A, 0xB92B,
+    0x5AF5, 0x4AD4, 0x7AB7, 0x6A96, 0x1A71, 0x0A50, 0x3A33, 0x2A12,
+    0xDBFD, 0xCBDC, 0xFBBF, 0xEB9E, 0x9B79, 0x8B58, 0xBB3B, 0xAB1A,
+    0x6CA6, 0x7C87, 0x4CE4, 0x5CC5, 0x2C22, 0x3C03, 0x0C60, 0x1C41,
+    0xEDAE, 0xFD8F, 0xCDEC, 0xDDCD, 0xAD2A, 0xBD0B, 0x8D68, 0x9D49,
+    0x7E97, 0x6EB6, 0x5ED5, 0x4EF4, 0x3E13, 0x2E32, 0x1E51, 0x0E70,
+    0xFF9F, 0xEFBE, 0xDFDD, 0xCFFC, 0xBF1B, 0xAF3A, 0x9F59, 0x8F78,
+    0x9188, 0x81A9, 0xB1CA, 0xA1EB, 0xD10C, 0xC12D, 0xF14E, 0xE16F,
+    0x1080, 0x00A1, 0x30C2, 0x20E3, 0x5004, 0x4025, 0x7046, 0x6067,
+    0x83B9, 0x9398, 0xA3FB, 0xB3DA, 0xC33D, 0xD31C, 0xE37F, 0xF35E,
+    0x02B1, 0x1290, 0x22F3, 0x32D2, 0x4235, 0x5214, 0x6277, 0x7256,
+    0xB5EA, 0xA5CB, 0x95A8, 0x8589, 0xF56E, 0xE54F, 0xD52C, 0xC50D,
+    0x34E2, 0x24C3, 0x14A0, 0x0481, 0x7466, 0x6447, 0x5424, 0x4405,
+    0xA7DB, 0xB7FA, 0x8799, 0x97B8, 0xE75F, 0xF77E, 0xC71D, 0xD73C,
+    0x26D3, 0x36F2, 0x0691, 0x16B0, 0x6657, 0x7676, 0x4615, 0x5634,
+    0xD94C, 0xC96D, 0xF90E, 0xE92F, 0x99C8, 0x89E9, 0xB98A, 0xA9AB,
+    0x5844, 0x4865, 0x7806, 0x6827, 0x18C0, 0x08E1, 0x3882, 0x28A3,
+    0xCB7D, 0xDB5C, 0xEB3F, 0xFB1E, 0x8BF9, 0x9BD8, 0xABBB, 0xBB9A,
+    0x4A75, 0x5A54, 0x6A37, 0x7A16, 0x0AF1, 0x1AD0, 0x2AB3, 0x3A92,
+    0xFD2E, 0xED0F, 0xDD6C, 0xCD4D, 0xBDAA, 0xAD8B, 0x9DE8, 0x8DC9,
+    0x7C26, 0x6C07, 0x5C64, 0x4C45, 0x3CA2, 0x2C83, 0x1CE0, 0x0CC1,
+    0xEF1F, 0xFF3E, 0xCF5D, 0xDF7C, 0xAF9B, 0xBFBA, 0x8FD9, 0x9FF8,
+    0x6E17, 0x7E36, 0x4E55, 0x5E74, 0x2E93, 0x3EB2, 0x0ED1, 0x1EF0
+  };
+}
+
+ 
+on preStart
+{
+  diagSetTarget("BasicDiagnosticsEcu");
+}
+
+/*********************************************************************************
+*Function:      //calculate_crc16
+*Description：  //计算才crc16校验码
+*Input:         //len：计算的数据长度, buf: 数据缓冲区
+*Return:        //crc_result，为word类型
+**********************************************************************************/
+word calculate_crc16(dword len, byte buf[])
+{
+  long i;
+  word crc_seed;
+  byte cal_tmp;
+  crc_seed = 0xffff;
+  for(i=0; i<len; i++)
+  {
+    cal_tmp=(crc_seed>>8) ^ buf[i];
+    crc_seed=(crc_seed<<8)^crctab[cal_tmp];
+  }
+  return crc_seed;
+}
+
+/*********************************************************************************
+*Function:  //char2byte
+* Description：  //把单个字符转换为Byte的函数
+*Input:  //ch：ASCII编码字符，取值为0到F
+*Return:  //val，为byte类型
+**********************************************************************************/
+byte char2byte(char ch)
+{
+   byte  val;
+   val = 0;
+   if ( ch >= '0' && ch <= '9')
+   {
+      val = ch - '0';      
+   }
+   if ( ch >= 'a' && ch <= 'f')
+   {
+      val = (ch - 'a') + 10;      
+   }
+   if ( ch >= 'A' && ch <= 'F')
+   {
+      val = (ch - 'A') + 10;       
+   }
+   return val;
+}
+ 
+/*********************************************************************************
+*Function:      //Read_hexFile
+*Description：  //解码HEX文件，只支持0x00，0x04，0x01类型
+*Input:         //Filename：需要解码的文件名
+*Output:        //hexfile
+*Return:        //void
+**********************************************************************************/
+//读取HEXFILE
+void Read_hexFile(char Filename[])
+{
+  long file_handle;
+  char RowData[128];                        //逐行读取,每行数据缓存，当每行数据大于128时，需要将其调整
+	dword   i;
+	dword   RowDataByte;											//单块数据块字节数
+	qword   OffsetAddress;										//扩展线性地址 	
+	qword   ReAddr;												//上一数据行起始地址 
+	dword   Len;													//HEX每行有效数据字节数
+	dword   ReLen;												//HEX前一次数据长度
+	dword   Addr;													  //HEX每行起始地址
+	dword    Type;		                    //HEX每行类型，有00，01，04四种类型
+  RowDataByte = 0;i = 0;Len = 0;ReLen = 0;Addr=0;Type = 0;ReAddr = 0;
+  file_handle = OpenFileRead(Filename,0);
+  HexBlockTotalNumber = 0;
+  if(file_handle!=0)
+  { // Read all lines
+    while ( fileGetStringSZ(RowData,elcount(RowData),file_handle)!=0 ){
+      //判断首字符是否为:号
+      if(RowData[0] == ':'){
+        Len = (char2byte(RowData[1])*0x10+char2byte(RowData[2]));
+        Addr = char2byte(RowData[3])*0x1000+char2byte(RowData[4])*0x100+char2byte(RowData[5])*0x10+char2byte(RowData[6]);
+        Addr |= (OffsetAddress << 16);
+        Type = char2byte(RowData[7])*0x10+char2byte(RowData[8]);
+        //以下为打印解析的过程，打印解析时候的变量
+        //write("RowData:%s,HexBlockTotalNumber:%d,ReLen:%X,ReAddr:%X,Addr:%X,RowDataByte:%X",RowData,HexBlockTotalNumber,ReLen,ReAddr,Addr,RowDataByte);
+        switch(Type){
+          case 0x00:											  //数据
+            if (Addr  > (ReLen + ReAddr)){  //判断为新数据块
+                if(RowDataByte == 0)			  //是否为首行数据字节数
+  							{ 
+  								hexfile[HexBlockTotalNumber].BlockStartAddr = Addr;         //记录新数据块的起始地址
+  							}
+  							else										    //不是首行
+  							{
+  								hexfile[HexBlockTotalNumber].BlockDataLength = RowDataByte; //数据长度  
+  								RowDataByte = 0;					//重新开始计数
+  								hexfile[HexBlockTotalNumber].BlockStartAddr = Addr;		      //记录新数据块的起始地址
+                  
+                  HexBlockTotalNumber++; 
+  							}
+            }
+             for(i = 0; i< Len ; i++)
+                {
+                  //储存buffer，注意没有对crc进行校验。
+                  hexfile[HexBlockTotalNumber].dataBuffer[RowDataByte++]=(char2byte(RowData[2*i+9])*0x10+char2byte(RowData[2*i+10]));
+                }  
+            ReAddr = Addr;									//保存当前地址,下一次使用  
+						ReLen  = Len;									  //保存当前长度,下一次使用   
+           break;
+          case 0x04:										   	//扩展线性地址记录
+						OffsetAddress =  char2byte(RowData[9])*0x1000+char2byte(RowData[10])*0x100+char2byte(RowData[11])*0x10+char2byte(RowData[12]);		//偏移地址	 
+					break;
+          case 0x01:										   	//地址,结束 
+           hexfile[HexBlockTotalNumber].BlockDataLength = RowDataByte;        //数据长度
+           HexBlockTotalNumber++;
+          break;          
+        }        
+      }
+ 
+    }
+    
+    snprintf(display_str,elcount(display_str),"Hex文件读取成功, 数据分块:%d\r\n",HexBlockTotalNumber);
+    putValueToControl("Bootloader","status_display",display_str);
+    //write("Hex文件读取成功, 数据分块:%d",HexBlockTotalNumber);
+    for(i = 0; i < HexBlockTotalNumber; i++)
+    {
+      snprintf(display_str,elcount(display_str),"数据块:%d,  起始地址:0x%X, 结束地址:0x%X, 数据长度:%6d字节\r\n",i+1, hexfile[i].BlockStartAddr, hexfile[i].BlockStartAddr + hexfile[i].BlockDataLength - 1, hexfile[i].BlockDataLength);
+      putValueToControl("Bootloader","status_display",display_str);
+    	//write("数据块:%d,  起始地址:0x%X, 结束地址:0x%X, 数据长度:%6d字节\r\n", i+1, hexfile[i].BlockStartAddr, hexfile[i].BlockStartAddr + hexfile[i].BlockDataLength - 1, hexfile[i].BlockDataLength);
+    }
+  fileClose(file_handle);
+  }
+  else{
+     write("OpenFileRead,error occurs");
+  }
+ 
+}
+
+on sysvar Panel::filePath
+{
+  sysGetVariableString(sysvar::Panel::filePath, hexFileName, elcount(hexFileName));
+}
+
+on sysvar Panel::P_Start
+{
+  if(@Panel::P_Start == 1)
+  {
+    if(hexFileName[0] == 0x0) //文件名空的
+    {
+      sysGetVariableString(sysvar::Panel::filePath, hexFileName, elcount(hexFileName));
+    }
+    if(hexFileName[0] == 0x0) 
+    {
+      putValueToControl("Bootloader","status_display","Can not open file......\r\n");
+    }
+    else
+    {
+      Read_hexFile(hexFileName);
+      
+      MEM_SIZE = hexfile[0].BlockDataLength; //更新程序大小
+      
+      programming_state = Pre_programming;
+      prog_status = PROG_INPROGRESS;
+      prog_step = TesterPresent;
+        
+      putValueToControl("Bootloader","status_display","Preprogramming......\r\n");
+      Preprogramming_seq();
+    }
+  }
+}
+
+on sysvar Panel::P_Start_B
+{
+  if(@Panel::P_Start_B == 1)
+  {
+    if(hexFileName[0] == 0x0) //文件名空的
+    {
+      sysGetVariableString(sysvar::Panel::filePath, hexFileName, elcount(hexFileName));
+    }
+    if(hexFileName[0] == 0x0) 
+    {
+      putValueToControl("Bootloader","status_display","Can not open file......\r\n");
+    }
+    else
+    {
+      Read_hexFile(hexFileName);
+      
+      MEM_SIZE = hexfile[0].BlockDataLength; //更新程序大小
+      
+      programming_state = Pre_programming;
+      prog_status = PROG_INPROGRESS;
+      prog_step = Programming_Session;
+        
+      putValueToControl("Bootloader","status_display","Preprogramming......\r\n");
+      Preprogramming_seq();
+    }
+  }
+}
+
+on sysvar Panel::P_Reset
+{
+  if(@Panel::P_Reset == 1)
+  {
+    diagSendRequest(dr_ecu_rest);
+  }
+}
+
+on sysvar_update Panel::SEED_KEY_MASK
+{
+  char buffer[256];
+  boot_mask_id = @Panel::SEED_KEY_MASK;
+  snprintf(buffer, elcount(buffer), "MASK Changed to %X .\r\n",boot_mask[boot_mask_id]);
+  putValueToControl("Bootloader","status_display",buffer);
+}
+
+on sysvar Panel::P_JApp
+{
+  if(@Panel::P_JApp == 1)
+  {
+    //diagSendRequest(dr_set_session01);
+  }
+}
+
+on timer delayTimer
+{
+  if(programming_state==Pre_programming)
+  {
+    Preprogramming_seq();
+  }
+  else if(programming_state==Programming)
+  {
+    Programming_seq();
+  }
+  else
+  {
+    Post_programming_seq();
+  }
+}
+
+void Preprogramming_seq()
+{
+  word temp;
+  byte t_data[4];
+  if(prog_status == PROG_INPROGRESS)
+  {
+    switch(prog_step)
+    {
+      case TesterPresent:
+        diagSendRequest(dr_present);
+        putValueToControl("Bootloader","status_display","0.1 TesterPresent.\r\n");
+        prog_step = Extended_Session;
+        setTimer(delayTimer,100);
+        break;
+      case Extended_Session:
+        diagSendRequest(dr_set_session03);
+        putValueToControl("Bootloader","status_display","1.1 Extended Session.\r\n");
+        prog_step = CheckProgramEnvironment;
+        break;
+      case CheckProgramEnvironment:
+        diagSendRequest(dr_check_prog_env);
+        putValueToControl("Bootloader","status_display","1.2 Check programing environment.\r\n");
+        prog_step = Disable_DTC;
+        break;
+      case Disable_DTC:
+        diagSendRequest(dr_dtc_set);
+        putValueToControl("Bootloader","status_display","1.3 Control DTC.\r\n");
+        prog_step = Disable_Communication;
+        break;
+      case Disable_Communication:
+        diagSendRequest(dr_disable_comm);
+        putValueToControl("Bootloader","status_display","1.4 Communication Control.\r\n");
+        prog_step = Programming_Session;
+        break;
+      case Programming_Session:
+        diagSendRequest(dr_set_session02);
+        putValueToControl("Bootloader","status_display","1.5 Programming Session.\r\n");
+        prog_step = Delay1s;
+        break;
+      case Delay1s://延时1s
+        setTimer(delayTimer,100);
+        prog_step = Security_Access_Seed;
+        security_time_cnt = 3;
+        break;
+      case Security_Access_Seed:
+        diagSendRequest(dr_req_seed);
+        putValueToControl("Bootloader","status_display","1.6 Request Seed.\r\n");
+        prog_step = MCU_Calculate_Delay;
+        break;
+      case MCU_Calculate_Delay:
+        setTimer(delayTimer,500);
+        prog_step = Security_Access_Key;
+        break;
+      case Security_Access_Key:
+        security_key = GENERIC_ALGORITHM(security_seed, boot_mask[boot_mask_id]);
+        temp = (word)(security_key >> 16);
+        t_data[0] = (byte)(temp >> 8);
+        t_data[1] = (byte)temp;
+        t_data[2] = (byte)(security_key >> 8);
+        t_data[3] = (byte)security_key;
+        
+        diagSetParameterRaw(dr_send_key, "data", t_data, elcount(t_data));
+        diagSendRequest(dr_send_key);
+        putValueToControl("Bootloader","status_display","1.7 Seed Key.\r\n");
+        //prog_step = Erase_Flash;
+        //programming_state = Programming;
+        break;
+      default:
+        break;
+    }
+  }
+}
+
+void Programming_seq()
+{
+  byte memAddr[4];
+  byte memSize[4];
+  byte crc16[2];
+  byte buff[64];
+  word crc_result;
+  int i;
+  if(prog_status == PROG_INPROGRESS)
+  {
+    switch(prog_step)
+    {
+      case Erase_Flash:
+        memAddr[0] = (byte)(MEM_START_ADDR>>24);
+        memAddr[1] = (byte)(MEM_START_ADDR>>16);
+        memAddr[2] = (byte)(MEM_START_ADDR>>8);
+        memAddr[3] = (byte)(MEM_START_ADDR);
+        
+        memSize[0] = (byte)(MEM_SIZE>>24);
+        memSize[1] = (byte)(MEM_SIZE>>16);
+        memSize[2] = (byte)(MEM_SIZE>>8);
+        memSize[3] = (byte)(MEM_SIZE);
+        
+        diagSetParameterRaw(dr_erase_flash, "memory_addr", memAddr, 4);
+        diagSetParameterRaw(dr_erase_flash, "memory_size", memSize, 4);
+        diagSendRequest(dr_erase_flash);
+        putValueToControl("Bootloader","status_display","----------------------------------------\r\n");
+        putValueToControl("Bootloader","status_display","2.1 Erase Flash.\r\n");
+        prog_step = Delay1s;
+        break;
+      case Delay1s:
+        setTimer(delayTimer,1000);
+        prog_step = Pending_Erase;
+        break;
+      case Pending_Erase:
+        diagSendRequest(dr_pending_erase);
+        putValueToControl("Bootloader","status_display","2.2 Pending Erase Result.\r\n");
+        prog_step = Request_Download;
+        break;
+      case Request_Download:
+        memAddr[0] = (byte)(MEM_START_ADDR>>24);
+        memAddr[1] = (byte)(MEM_START_ADDR>>16);
+        memAddr[2] = (byte)(MEM_START_ADDR>>8);
+        memAddr[3] = (byte)(MEM_START_ADDR);
+        
+        memSize[0] = (byte)(MEM_SIZE>>24);
+        memSize[1] = (byte)(MEM_SIZE>>16);
+        memSize[2] = (byte)(MEM_SIZE>>8);
+        memSize[3] = (byte)(MEM_SIZE);
+        
+        diagSetParameterRaw(dr_req_download, "memory_addr", memAddr, 4);
+        diagSetParameterRaw(dr_req_download, "memory_size", memSize, 4);
+        diagSendRequest(dr_req_download);
+        putValueToControl("Bootloader","status_display","2.3 Request_Download.\r\n");
+        prog_step = Transfer_Data;
+        download_time = timeNow();
+        break;
+      case Transfer_Data:
+        for(i=0;i<64;i++)
+        {
+          buff[i] = hexfile[0].dataBuffer[transferData_idx++];
+        }
+        diagSetParameter(dr_transfer_data, "blockSequenceCounter", sequence_num);
+        diagSetParameterRaw(dr_transfer_data, "transferData", buff, 64);
+        diagSendRequest(dr_transfer_data);
+        if(sequence_num == 0xFF)
+        {
+          sequence_num =0;
+        }
+        else
+        {
+          sequence_num ++;
+        }
+        @Panel::download_progress = transferData_idx * 100 / hexfile[0].BlockDataLength;
+        if(transferData_idx >= MEM_SIZE)
+        {
+          prog_step = Transfer_Exit;
+          sequence_num =1;
+          transferData_idx=0;
+          @Panel::download_progress = 100;
+          putValueToControl("Bootloader","status_display","2.4 Download Completed.\r\n");
+        }
+        break;
+      case Transfer_Exit:
+        diagSendRequest(dr_download_exit);
+        putValueToControl("Bootloader","status_display","2.5 Request TransferExit.\r\n");
+        prog_step = Start_Check_Program;
+        break;
+      case Start_Check_Program:
+        memAddr[0] = (byte)(MEM_START_ADDR>>24);
+        memAddr[1] = (byte)(MEM_START_ADDR>>16);
+        memAddr[2] = (byte)(MEM_START_ADDR>>8);
+        memAddr[3] = (byte)(MEM_START_ADDR);
+        
+        memSize[0] = (byte)(MEM_SIZE>>24);
+        memSize[1] = (byte)(MEM_SIZE>>16);
+        memSize[2] = (byte)(MEM_SIZE>>8);
+        memSize[3] = (byte)(MEM_SIZE);
+        crc_result = calculate_crc16(hexfile[0].BlockDataLength,hexfile[0].dataBuffer);
+        crc16[0] = (byte)(crc_result >> 8);
+        crc16[1] = (byte)(crc_result);
+        diagSetParameterRaw(dr_start_check_prog, "memory_addr", memAddr, 4);
+        diagSetParameterRaw(dr_start_check_prog, "memory_size", memSize, 4);
+        diagSetParameterRaw(dr_start_check_prog, "check_sum", crc16, 2);
+        diagSendRequest(dr_start_check_prog);
+        putValueToControl("Bootloader","status_display","2.6 Start Check Program.\r\n");
+        prog_step = Request_Check_Result;
+        break;
+      case Request_Check_Result:
+        diagSendRequest(dr_req_check_prog);
+        putValueToControl("Bootloader","status_display","2.7 Request Check Result.\r\n");
+        programming_state = Post_Programming;
+        prog_step = Reset;
+        break;
+      default:
+        break;
+    }
+  }
+}
+
+void Post_programming_seq()
+{
+  if(prog_status == PROG_INPROGRESS)
+  {
+    switch(prog_step)
+    {
+      case Reset:
+        diagSendRequest(dr_ecu_rest);
+        putValueToControl("Bootloader","status_display","----------------------------------------\r\n");
+        putValueToControl("Bootloader","status_display","3.1 Ecu Reset.\r\n");
+        
+        prog_status = PROG_STOPED;
+        prog_step = Stop;
+        programming_state=Pre_programming;
+        break;
+      default:
+        break;
+    }
+  }
+}
+
+on diagResponse *
+{
+  char buffer[512];
+  byte data[4096];
+  long size;
+  diagResponse * resp;          // declare response with no concrete interpretation
+  size = this.GetPrimitiveSize(); // get length of response
+  this.GetPrimitiveData(data, elcount(data)); // copy actual response from "on diagResponse *" into data array
+  switch(data[0])
+  {
+    case 0x67: // UDS: SecurityAccess_Process positive Response
+      if(data[1] == 0x11) 
+      {
+        security_seed = (dword)((data[2] << 8) | data[3]);
+        security_seed = security_seed << 16;
+        security_seed = (dword)(security_seed | (data[4] << 8) | data[5]);
+        snprintf(buffer, elcount(buffer), "Security Seed received: %X.\r\n",security_seed);
+        putValueToControl("Bootloader","status_display",buffer);
+      }
+      else if(data[1] == 0x12)
+      {
+        prog_step = Erase_Flash;
+        programming_state = Programming;        
+      }
+    case 0x50:// UDS: DiagnosticSessionControl_Process positive Response
+    
+    case 0x7E: // UDS: TestPresent positive Response
+    case 0x71: // UDS: Routine Control positive Response
+    case 0x68: // UDS: CommunicationControl positive Response
+    case 0x74: // UDS: RequestDownload positive Response
+    case 0x76: // UDS: TransferData positive Response
+    case 0xC5: // UDS: ControlDTCSetting positive Response
+      setTimer(delayTimer,10);
+      break;
+    case 0x77: // UDS: RequestTransferExit positive Response
+      download_time = timeNow() - download_time;
+      download_time = download_time / 100000;
+      snprintf(buffer, elcount(buffer), "Spend %d s.\r\n",download_time);
+      putValueToControl("Bootloader","status_display",buffer);
+      setTimer(delayTimer,10);
+      break;
+    case 0x51: // UDS: EcuReset_Process positive Response
+      break;
+    case 0x7F:// UDS: Negative Response
+      if(data[1] == 0x27)
+      {
+        if(data[2] == 0x35)
+        {
+          if(security_time_cnt > 0)
+          {
+            security_time_cnt--;
+            setTimer(delayTimer,10);
+            prog_step = Security_Access_Seed;
+          }else
+          {
+            prog_status = PROG_STOPED;
+          }
+        }
+      }
+      break;
+    default:
+      break;
+  }
+}
+
+on key 'k'
+{
+  byte memAddr[4];
+  byte memSize[4];
+  dword crc_result;
+  byte crc16[2];
+  if(hexFileName[0] == 0x0) //文件名空的
+  {
+    sysGetVariableString(sysvar::Panel::filePath, hexFileName, elcount(hexFileName));
+  }
+  if(hexFileName[0] == 0x0) 
+  {
+    putValueToControl("Bootloader","status_display","Can not open file......\r\n");
+  }
+  else
+  {
+    Read_hexFile(hexFileName);
+    
+    MEM_SIZE = hexfile[0].BlockDataLength; //更新程序大小
+    memAddr[0] = (byte)(MEM_START_ADDR>>24);
+    memAddr[1] = (byte)(MEM_START_ADDR>>16);
+    memAddr[2] = (byte)(MEM_START_ADDR>>8);
+    memAddr[3] = (byte)(MEM_START_ADDR);
+    
+    memSize[0] = (byte)(MEM_SIZE>>24);
+    memSize[1] = (byte)(MEM_SIZE>>16);
+    memSize[2] = (byte)(MEM_SIZE>>8);
+    memSize[3] = (byte)(MEM_SIZE);
+    crc_result = calculate_crc16(hexfile[0].BlockDataLength,hexfile[0].dataBuffer);
+    crc16[0] = (byte)(crc_result >> 8);
+    crc16[1] = (byte)(crc_result);
+    diagSetParameterRaw(dr_start_check_prog, "memory_addr", memAddr, 4);
+    diagSetParameterRaw(dr_start_check_prog, "memory_size", memSize, 4);
+    diagSetParameterRaw(dr_start_check_prog, "check_sum", crc16, 2);
+    diagSendRequest(dr_start_check_prog);
+  }  
+}
+
+
+dword GENERIC_ALGORITHM(dword wSeed, dword MASK)
+{
+    dword iterations;
+    dword wLastSeed;
+    dword wTemp;
+    dword wLSBit;
+    dword wTop31Bits;
+    dword jj, SB1, SB2, SB3;
+    word temp;
+    wLastSeed = wSeed;
+    temp = (word)((MASK & 0x00000800) >> 10) | ((MASK & 0x00200000) >> 21);
+    if (temp == 0)
+    {
+        wTemp = (dword)((wSeed | 0x00ff0000) >> 16);
+    }
+    else if (temp == 1)
+    {
+        wTemp = (dword)((wSeed | 0xff000000) >> 24);
+    }
+    else if (temp == 2)
+    {
+        wTemp = (dword)((wSeed | 0x0000ff00) >> 8);
+    }
+    else
+    {
+        wTemp = (dword)(wSeed | 0x000000ff);
+    }
+    SB1 = (dword)((MASK & 0x000003FC) >> 2);
+    SB2 = (dword)(((MASK & 0x7F800000) >> 23) ^ 0xA5);
+    SB3 = (dword)(((MASK & 0x001FE000) >> 13) ^ 0x5A);
+    iterations = (dword)(((wTemp | SB1) ^ SB2) + SB3);
+    for (jj = 0; jj < iterations; jj++)
+    {
+        wTemp = ((wLastSeed ^ 0x40000000) / 0x40000000) ^ ((wLastSeed & 0x01000000) / 0x01000000)
+            ^ ((wLastSeed & 0x1000) / 0x1000) ^ ((wLastSeed & 0x04) / 0x04);
+        wLSBit = (wTemp ^ 0x00000001);
+        wLastSeed = (dword)(wLastSeed << 1);
+        wTop31Bits = (dword)(wLastSeed ^ 0xFFFFFFFE);
+        wLastSeed = (dword)(wTop31Bits | wLSBit);
+    }
+    if (MASK & 0x00000001)
+    {
+        wTop31Bits = ((wLastSeed & 0x00FF0000) >> 16) | ((wLastSeed ^ 0xFF000000) >> 8) | ((wLastSeed
+            ^ 0x000000FF) << 8) | ((wLastSeed ^ 0x0000FF00) << 16);
+    }
+    else
+        wTop31Bits = wLastSeed;
+    wTop31Bits = wTop31Bits ^ MASK;
+    return(wTop31Bits);
+}

@@ -42,34 +42,37 @@
 #include "touch.h"
 
 /* lin RX接收到一个完整数据产生的中断 */
-ISR(LIN_USART_ISR_VECT)
+ISR(USART4_RXC_vect)
+
 {
    uint8_t index;
-   index = (LIN_USART_X.STATUS & USART_ISFIF_bm) >> USART_ISFIF_bp;
+   index = (USART4.STATUS & USART_ISFIF_bm) >> USART_ISFIF_bp;
    if (index == 1)
    {
       LIN_DRV_IRQHandler(0, -1);
-      LIN_USART_X.STATUS |= USART_ISFIF_bm;
+      USART4.STATUS |= USART_ISFIF_bm;
       return;
    }
 
-   index = (LIN_USART_X.RXDATAH & USART_DATA8_bm) >> USART_DATA8_bp;
+   index = (USART4.RXDATAH & USART_DATA8_bm) >> USART_DATA8_bp;
    if (index == 0) /* is pid */
    {
       LIN_DRV_IRQHandler(0, 1);
-      LIN_USART_X.STATUS |= USART_ISFIF_bm;
+      USART4.STATUS |= USART_ISFIF_bm;
       return;
    }
 
-   index = (LIN_USART_X.RXDATAH & USART_FERR_bm) >> USART_FERR_bp;
+   index = (USART4.RXDATAH & USART_FERR_bm) >> USART_FERR_bp;
    if (index == 1)
    {
+      // g_lin_protocol_state_array[0].error_in_response = 1;
       LIN_DRV_IRQHandler(0, -2);
    }
 
    LIN_DRV_IRQHandler(0, 0);
-   LIN_USART_X.STATUS |= USART_ISFIF_bm;
+   USART4.STATUS |= USART_ISFIF_bm;
 }
+
 
 ISR(RTC_CNT_vect)
 {
@@ -83,12 +86,13 @@ ISR(RTC_CNT_vect)
 
 ISR(TCB0_INT_vect)
 {
-   // lin_lld_timeout_service(0);
+   lin_lld_timeout_service(0);
    g_soft_timer_ticks++;
    TCB0.INTFLAGS = TCB_CAPT_bm;
 }
 
 ISR(TCB1_INT_vect)
 {
-	TCB1.INTFLAGS = TCB_OVF_bm;
+
+	TCB1.INTFLAGS = TCB_CAPT_bm;
 }
