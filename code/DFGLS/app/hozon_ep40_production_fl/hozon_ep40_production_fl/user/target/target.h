@@ -18,8 +18,10 @@
 #define LIN_TX_SET_LEVEL PE0_set_level
 #define DUTY_MAX 0x4a
 
+#define REAR_BTN_INDEX 0
+#define WINDOW_LOCK_BTN_INDEX 1
+
 void target_soft_timer_init(void);
 size_t USART0_Read(uint8_t * rDATA);
 size_t USART0_Send(uint8_t * tDATA);
-void soft_timer_touch_press_motor_task(void);
 void lin_go_to_sleep(void);

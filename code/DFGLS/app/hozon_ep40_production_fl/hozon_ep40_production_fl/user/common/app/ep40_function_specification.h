@@ -43,6 +43,11 @@ typedef void (*rear_led_ctrl_t)(uint8_t status);
 typedef struct
 {
     uint8_t status;
+    uint8_t btn_index;
+    uint8_t btn_status_last;
+    uint8_t btn_status;
+    uint8_t press_status_last;
+    uint8_t press_status;
     uint8_t cap_trig_flg;
     uint8_t all_cap_status;
     uint8_t press_trig_flg;
@@ -72,8 +77,13 @@ typedef void (*window_lock_led_cb_t)(uint8_t status);
 
 typedef struct
 {
-    uint8_t capsense_flg;
-    uint8_t press_flg;
+    uint8_t btn_index;
+    uint8_t btn_status_last;
+    uint8_t btn_status;
+    uint8_t press_status_last;
+    uint8_t press_status;
+    uint8_t cap_trig_flg;
+    uint8_t press_trig_flg;
     window_lock_led_cb_t led_cb;
     window_lock_cb_t signal_cb;
 } window_lock_t;

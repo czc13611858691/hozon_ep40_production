@@ -40,6 +40,7 @@
 #include "lin.h"
 #include "target.h"
 #include "touch.h"
+#include "dac.h"
 
 /* lin RX接收到一个完整数据产生的中断 */
 ISR(USART4_RXC_vect)
@@ -93,6 +94,6 @@ ISR(TCB0_INT_vect)
 
 ISR(TCB1_INT_vect)
 {
-
+   dac_timer_task();
 	TCB1.INTFLAGS = TCB_CAPT_bm;
 }

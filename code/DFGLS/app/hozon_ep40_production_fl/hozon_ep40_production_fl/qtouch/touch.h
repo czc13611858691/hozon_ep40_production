@@ -89,37 +89,37 @@ extern "C" {
 	{                                                                                                                  \
 		Y(17) | Y(18) | Y(14) | Y(23) | Y(28) | Y(4) | Y(11) | Y(10) | Y(9) | Y(8) | Y(7) | Y(13) | Y(5) | Y(15)       \
 		    | Y(6) | Y(21) | Y(20) | Y(19) | Y(16),                                                                    \
-		    Y(12), 0, PRSC_DIV_SEL_12, NODE_GAIN(GAIN_1, GAIN_1), FILTER_LEVEL_16                                      \
+		    Y(12), 0, PRSC_DIV_SEL_12, NODE_GAIN(GAIN_2, GAIN_1), FILTER_LEVEL_16                                      \
 	}
 #define NODE_1_PARAMS                                                                                                  \
 	{                                                                                                                  \
 		Y(17) | Y(18) | Y(14) | Y(23) | Y(28) | Y(4) | Y(11) | Y(10) | Y(9) | Y(8) | Y(7) | Y(5) | Y(15) | Y(6)        \
 		    | Y(21) | Y(20) | Y(19) | Y(12) | Y(16),                                                                   \
-		    Y(13), 0, PRSC_DIV_SEL_12, NODE_GAIN(GAIN_1, GAIN_1), FILTER_LEVEL_16                                      \
+		    Y(13), 0, PRSC_DIV_SEL_12, NODE_GAIN(GAIN_2, GAIN_1), FILTER_LEVEL_16                                      \
 	}
 #define NODE_2_PARAMS                                                                                                  \
 	{                                                                                                                  \
 		Y(17) | Y(18) | Y(14) | Y(23) | Y(28) | Y(11) | Y(10) | Y(9) | Y(8) | Y(7) | Y(13) | Y(5) | Y(15) | Y(6)       \
 		    | Y(21) | Y(20) | Y(19) | Y(12) | Y(16),                                                                   \
-		    Y(4), 0, PRSC_DIV_SEL_12, NODE_GAIN(GAIN_1, GAIN_1), FILTER_LEVEL_16                                       \
+		    Y(4), 0, PRSC_DIV_SEL_12, NODE_GAIN(GAIN_2, GAIN_1), FILTER_LEVEL_16                                       \
 	}
 #define NODE_3_PARAMS                                                                                                  \
 	{                                                                                                                  \
 		Y(17) | Y(18) | Y(14) | Y(23) | Y(4) | Y(11) | Y(10) | Y(9) | Y(8) | Y(7) | Y(13) | Y(5) | Y(15) | Y(6)        \
 		    | Y(21) | Y(20) | Y(19) | Y(12) | Y(16),                                                                   \
-		    Y(28), 0, PRSC_DIV_SEL_12, NODE_GAIN(GAIN_1, GAIN_1), FILTER_LEVEL_16                                      \
+		    Y(28), 0, PRSC_DIV_SEL_12, NODE_GAIN(GAIN_2, GAIN_1), FILTER_LEVEL_16                                      \
 	}
 #define NODE_4_PARAMS                                                                                                  \
 	{                                                                                                                  \
 		Y(17) | Y(18) | Y(14) | Y(28) | Y(4) | Y(11) | Y(10) | Y(9) | Y(8) | Y(7) | Y(13) | Y(5) | Y(15) | Y(6)        \
 		    | Y(21) | Y(20) | Y(19) | Y(12) | Y(16),                                                                   \
-		    Y(23), 0, PRSC_DIV_SEL_12, NODE_GAIN(GAIN_1, GAIN_1), FILTER_LEVEL_16                                      \
+		    Y(23), 0, PRSC_DIV_SEL_12, NODE_GAIN(GAIN_2, GAIN_1), FILTER_LEVEL_16                                      \
 	}
 #define NODE_5_PARAMS                                                                                                  \
 	{                                                                                                                  \
 		Y(17) | Y(18) | Y(23) | Y(28) | Y(4) | Y(11) | Y(10) | Y(9) | Y(8) | Y(7) | Y(13) | Y(5) | Y(15) | Y(6)        \
 		    | Y(21) | Y(20) | Y(19) | Y(12) | Y(16),                                                                   \
-		    Y(14), 0, PRSC_DIV_SEL_12, NODE_GAIN(GAIN_1, GAIN_1), FILTER_LEVEL_16                                      \
+		    Y(14), 0, PRSC_DIV_SEL_12, NODE_GAIN(GAIN_2, GAIN_1), FILTER_LEVEL_16                                      \
 	}
 #define NODE_6_PARAMS                                                                                                  \
 	{                                                                                                                  \
@@ -220,27 +220,27 @@ extern "C" {
  */
 #define KEY_0_PARAMS                                                                                                   \
 	{                                                                                                                  \
-		20, HYST_25, NO_AKS_GROUP                                                                                      \
+		20, HYST_25, AKS_GROUP_1                                                                                      \
 	}
 #define KEY_1_PARAMS                                                                                                   \
 	{                                                                                                                  \
-		20, HYST_25, NO_AKS_GROUP                                                                                      \
+		20, HYST_25, AKS_GROUP_1                                                                                      \
 	}
 #define KEY_2_PARAMS                                                                                                   \
 	{                                                                                                                  \
-		20, HYST_25, NO_AKS_GROUP                                                                                      \
+		20, HYST_25, AKS_GROUP_1                                                                                      \
 	}
 #define KEY_3_PARAMS                                                                                                   \
 	{                                                                                                                  \
-		20, HYST_25, NO_AKS_GROUP                                                                                      \
+		20, HYST_25, AKS_GROUP_1                                                                                      \
 	}
 #define KEY_4_PARAMS                                                                                                   \
 	{                                                                                                                  \
-		20, HYST_25, NO_AKS_GROUP                                                                                      \
+		20, HYST_25, AKS_GROUP_1                                                                                      \
 	}
 #define KEY_5_PARAMS                                                                                                   \
 	{                                                                                                                  \
-		20, HYST_25, NO_AKS_GROUP                                                                                      \
+		20, HYST_25, AKS_GROUP_1                                                                                      \
 	}
 #define KEY_6_PARAMS                                                                                                   \
 	{                                                                                                                  \
@@ -272,31 +272,31 @@ extern "C" {
 	}
 #define KEY_13_PARAMS                                                                                                  \
 	{                                                                                                                  \
-		20, HYST_25, AKS_GROUP_2                                                                                       \
+		20, HYST_25, AKS_GROUP_1                                                                                       \
 	}
 #define KEY_14_PARAMS                                                                                                  \
 	{                                                                                                                  \
-		20, HYST_25, AKS_GROUP_2                                                                                       \
+		20, HYST_25, AKS_GROUP_1                                                                                       \
 	}
 #define KEY_15_PARAMS                                                                                                  \
 	{                                                                                                                  \
-		20, HYST_25, AKS_GROUP_2                                                                                       \
+		20, HYST_25, AKS_GROUP_1                                                                                       \
 	}
 #define KEY_16_PARAMS                                                                                                  \
 	{                                                                                                                  \
-		20, HYST_25, AKS_GROUP_2                                                                                       \
+		20, HYST_25, AKS_GROUP_1                                                                                       \
 	}
 #define KEY_17_PARAMS                                                                                                  \
 	{                                                                                                                  \
-		20, HYST_25, AKS_GROUP_2                                                                                       \
+		20, HYST_25, AKS_GROUP_1                                                                                       \
 	}
 #define KEY_18_PARAMS                                                                                                  \
 	{                                                                                                                  \
-		20, HYST_25, AKS_GROUP_2                                                                                       \
+		20, HYST_25, AKS_GROUP_1                                                                                       \
 	}
 #define KEY_19_PARAMS                                                                                                  \
 	{                                                                                                                  \
-		20, HYST_25, AKS_GROUP_2                                                                                       \
+		20, HYST_25, AKS_GROUP_1                                                                                       \
 	}
 
 /* De-bounce counter for additional measurements to confirm touch detection

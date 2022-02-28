@@ -23,3 +23,8 @@ void adc_init(void)
 {
     ADC_0_register_callback(ADC_0_adc_handler_cb_copy);
 }
+
+void adc_run(void)
+{
+    ADC_0_start_conversion(adc_channel);
+}

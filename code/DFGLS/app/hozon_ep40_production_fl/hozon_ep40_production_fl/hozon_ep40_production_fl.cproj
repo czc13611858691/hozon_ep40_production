@@ -562,7 +562,16 @@
     <Compile Include="user\common\lin_protocol\middleware\lin_driver.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="user\target\dac.c">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="user\target\target.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="user\target\touch_press_motor.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="user\target\touch_press_motor_cfg.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="utils\assembler.h">

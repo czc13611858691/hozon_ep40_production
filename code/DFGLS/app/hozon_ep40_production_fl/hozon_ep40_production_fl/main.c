@@ -4,6 +4,7 @@
 #include "lin_commontl_api.h"
 #include "UDS.h"
 #include "soft_timer.h"
+#include "adc.h"
 
 #ifdef USER_BOOTLOADER
 #include "fuse.h"
@@ -17,7 +18,8 @@ int main(void)
 	Enable_global_interrupt();
 
 	led_init();
-
+	adc_init();
+	
 	target_soft_timer_init();
 
 	l_sys_init();

@@ -245,13 +245,13 @@ void window_lock_task(void)
     window_lock_t *window_lock_ptr = &g_window_lock;
     LIN_RX_signal_t *signal_ptr = &g_lin_rx_signal;
 
-    if (window_lock_ptr->capsense_flg == 1)
+    if (window_lock_ptr->cap_trig_flg == 1)
     {
-        window_lock_ptr->capsense_flg = 0;
+        window_lock_ptr->cap_trig_flg = 0;
 
-        if (window_lock_ptr->press_flg == 1)
+        if (window_lock_ptr->press_trig_flg == 1)
         {
-            window_lock_ptr->press_flg = 0;
+            window_lock_ptr->press_trig_flg = 0;
 
             if (window_lock_ptr->signal_cb != NULL)
             {

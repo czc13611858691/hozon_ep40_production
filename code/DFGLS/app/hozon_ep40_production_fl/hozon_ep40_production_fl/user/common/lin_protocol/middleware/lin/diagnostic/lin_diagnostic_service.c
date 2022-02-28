@@ -2484,7 +2484,7 @@ void lin_routine_control(l_ifc_handle iii)
     }
     if (d_len == 4U)
     {
-        if (routine_type == 0x1U)
+        if ((routine_type == 0x1U)||(routine_type == 0x3U))
         {
             if (state_id == 0x203U)
             {
@@ -2505,6 +2505,7 @@ void lin_routine_control(l_ifc_handle iii)
                 ld_make_slave_response_pdu(iii, SERVICE_ROUTINE_CONTROL, NEGATIVE, 0x31); //0x31 请求超出范围
             }
         }
+        
         else
         {
             ld_make_slave_response_pdu(iii, SERVICE_ROUTINE_CONTROL, NEGATIVE, 0x12); //0x12 子功能不支持

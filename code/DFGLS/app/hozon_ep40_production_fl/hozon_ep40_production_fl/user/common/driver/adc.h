@@ -7,5 +7,6 @@
 adc_0_channel_t adc_channel;
 adc_result_t ADC_0_measurement[2];
 void adc_init(void);
+void adc_run(void);
 
 #endif

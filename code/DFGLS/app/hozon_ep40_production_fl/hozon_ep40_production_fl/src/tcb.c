@@ -78,9 +78,9 @@ int8_t TIMER_2_init()
 int8_t TIMER_1_init()
 {
 
-	// TCB1.CCMP = 0x0; /* Compare or Capture: 0x0 */
+	TCB1.CCMP = 1600; /* Compare or Capture: 0x2134 */
 
-	TCB1.CNT = 0x5dc0; /* Count: 0x320 */
+	// TCB1.CNT = 0x0; /* Count: 0x0 */
 
 	TCB1.CTRLB = 0 << TCB_ASYNC_bp /* Asynchronous Enable: disabled */
 			 | 0 << TCB_CCMPEN_bp /* Pin Output Enable: disabled */
@@ -93,14 +93,13 @@ int8_t TIMER_1_init()
 	//		 | 0 << TCB_EDGE_bp /* Event Edge: disabled */
 	//		 | 0 << TCB_FILTER_bp; /* Input Capture Noise Cancellation Filter: disabled */
 
-	TCB1.INTCTRL = 1 << TCB_CAPT_bp   /* Capture or Timeout: disabled */
-	               | 0 << TCB_OVF_bp; /* OverFlow Interrupt: enabled */
+	TCB1.INTCTRL = 1 << TCB_CAPT_bp   /* Capture or Timeout: enabled */
+	               | 0 << TCB_OVF_bp; /* OverFlow Interrupt: disabled */
 
 	TCB1.CTRLA = TCB_CLKSEL_DIV1_gc     /* CLK_PER */
 	             | 1 << TCB_ENABLE_bp   /* Enable: enabled */
 	             | 0 << TCB_RUNSTDBY_bp /* Run Standby: disabled */
 	             | 0 << TCB_SYNCUPD_bp  /* Synchronize Update: disabled */
 	             | 0 << TCB_CASCADE_bp; /* Cascade Two Timer/Counters: disabled */
-
 	return 0;
 }
