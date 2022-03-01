@@ -163,12 +163,12 @@ void soft_timer_touch_press_motor_task(void)
             if (get_scroller_state(0) != 0)
             {
                 slide_pos = get_scroller_position(0);
-                g_btn_state[SLIDE_1_DIR_TRIG].slide_trig_flg = 0;
+                g_btn_state[SLIDE_1_DIR_TRIG].slide_trig_flg = 1;
             }
             else if (get_scroller_state(1) != 0)
             {
                 slide_pos = get_scroller_position(1);
-                g_btn_state[SLIDE_1_DIR_TRIG].slide_trig_flg = 1;
+                g_btn_state[SLIDE_1_DIR_TRIG].slide_trig_flg = 0;
             }
 
             // adc_res_index = g_btn_state[SLIDE_2_DIR_TRIG].adc_res_index;

@@ -487,7 +487,7 @@ void window_task_prototype(window_obj_t* _window_obj_ptr, uint8_t btn_a_index, u
     }
     window_ptr->slide_status = window_obj_ptr->slide_status;
 
-    window_obj_ptr->slide_pos = get_scroller_position(1);
+    window_obj_ptr->slide_pos = get_scroller_position(0);
 
     if (window_obj_ptr->status == 0)
     {
@@ -500,7 +500,7 @@ void window_task_prototype(window_obj_t* _window_obj_ptr, uint8_t btn_a_index, u
     }
     else if (window_obj_ptr->status == 4)
     {
-        if (get_scroller_state(1) == 0)
+        if (get_scroller_state(0) == 0)
         {
             window_obj_ptr->status = 0;
         }
@@ -654,7 +654,7 @@ void window_task_prototype(window_obj_t* _window_obj_ptr, uint8_t btn_a_index, u
     }
     window_ptr->slide_status = window_obj_ptr->slide_status;
 
-    window_obj_ptr->slide_pos = get_scroller_position(0);
+    window_obj_ptr->slide_pos = get_scroller_position(1);
 
     if (window_obj_ptr->status == 0)
     {
@@ -667,7 +667,7 @@ void window_task_prototype(window_obj_t* _window_obj_ptr, uint8_t btn_a_index, u
     }
     else if (window_obj_ptr->status == 4)
     {
-        if (get_scroller_state(0) == 0)
+        if (get_scroller_state(1) == 0)
         {
             window_obj_ptr->status = 0;
         }

@@ -1041,10 +1041,10 @@ void lin_slave_session_ctr(l_ifc_handle iii)
                 lin_tl_pdu[1] = 0x02;
                 lin_tl_pdu[2] = 0x50; //肯定响应 0x10 + 0x40
                 lin_tl_pdu[3] = g_sessionStatus;
-                lin_tl_pdu[4] = 0xFFU;
-                lin_tl_pdu[5] = 0xFFU;
-                lin_tl_pdu[6] = 0xFFU;
-                lin_tl_pdu[7] = 0xFFU;
+                lin_tl_pdu[4] = 0x00U;
+                lin_tl_pdu[5] = 0x00U;
+                lin_tl_pdu[6] = 0x00U;
+                lin_tl_pdu[7] = 0x00U;
 
                 ld_put_raw(iii, lin_tl_pdu);
                 tl_desc_ptr->diag_state = LD_DIAG_TX_PHY;
@@ -1085,10 +1085,10 @@ void lin_slave_session_ctr(l_ifc_handle iii)
                 lin_tl_pdu[1] = 0x02;
                 lin_tl_pdu[2] = 0x50; //肯定响应 0x10 + 0x40
                 lin_tl_pdu[3] = g_sessionStatus;
-                lin_tl_pdu[4] = 0xFFU;
-                lin_tl_pdu[5] = 0xFFU;
-                lin_tl_pdu[6] = 0xFFU;
-                lin_tl_pdu[7] = 0xFFU;
+                lin_tl_pdu[4] = 0x00U;
+                lin_tl_pdu[5] = 0x00U;
+                lin_tl_pdu[6] = 0x00U;
+                lin_tl_pdu[7] = 0x00U;
 
                 ld_put_raw(iii, lin_tl_pdu);
                 tl_desc_ptr->diag_state = LD_DIAG_TX_PHY;
@@ -1117,10 +1117,10 @@ void lin_slave_session_ctr(l_ifc_handle iii)
                 lin_tl_pdu[1] = 0x02;
                 lin_tl_pdu[2] = 0x50; //肯定响应 0x10 + 0x40
                 lin_tl_pdu[3] = g_sessionStatus;
-                lin_tl_pdu[4] = 0xFFU;
-                lin_tl_pdu[5] = 0xFFU;
-                lin_tl_pdu[6] = 0xFFU;
-                lin_tl_pdu[7] = 0xFFU;
+                lin_tl_pdu[4] = 0x00U;
+                lin_tl_pdu[5] = 0x00U;
+                lin_tl_pdu[6] = 0x00U;
+                lin_tl_pdu[7] = 0x00U;
 
                 ld_put_raw(iii, lin_tl_pdu);
                 tl_desc_ptr->diag_state = LD_DIAG_TX_PHY;
@@ -1189,10 +1189,10 @@ void lin_ecu_reset(l_ifc_handle iii)
                 lin_tl_pdu[1] = 0x02;
                 lin_tl_pdu[2] = 0x51; //肯定响应 0x11 + 0x40
                 lin_tl_pdu[3] = 0x01;
-                lin_tl_pdu[4] = 0xFFU;
-                lin_tl_pdu[5] = 0xFFU;
-                lin_tl_pdu[6] = 0xFFU;
-                lin_tl_pdu[7] = 0xFFU;
+                lin_tl_pdu[4] = 0x00U;
+                lin_tl_pdu[5] = 0x00U;
+                lin_tl_pdu[6] = 0x00U;
+                lin_tl_pdu[7] = 0x00U;
 
                 ld_put_raw(iii, lin_tl_pdu);
                 tl_desc_ptr->diag_state = LD_DIAG_TX_PHY;
@@ -1417,10 +1417,10 @@ void lin_security_access(l_ifc_handle iii)
                 lin_tl_pdu[1] = 0x02;
                 lin_tl_pdu[2] = 0x67;
                 lin_tl_pdu[3] = 0x04;
-                lin_tl_pdu[4] = 0xFFU;
-                lin_tl_pdu[5] = 0xFFU;
-                lin_tl_pdu[6] = 0xFFU;
-                lin_tl_pdu[7] = 0xFFU;
+                lin_tl_pdu[4] = 0x00U;
+                lin_tl_pdu[5] = 0x00U;
+                lin_tl_pdu[6] = 0x00U;
+                lin_tl_pdu[7] = 0x00U;
 
                 ld_put_raw(iii, lin_tl_pdu);
                 tl_desc_ptr->diag_state = LD_DIAG_TX_PHY;
@@ -1513,10 +1513,10 @@ void lin_communication_ctrl(l_ifc_handle iii)
                 lin_tl_pdu[1] = 0x02;
                 lin_tl_pdu[2] = 0x68; //肯定响应 0x28 + 0x40
                 lin_tl_pdu[3] = sub_func_id;
-                lin_tl_pdu[4] = 0xFFU;
-                lin_tl_pdu[5] = 0xFFU;
-                lin_tl_pdu[6] = 0xFFU;
-                lin_tl_pdu[7] = 0xFFU;
+                lin_tl_pdu[4] = 0x00U;
+                lin_tl_pdu[5] = 0x00U;
+                lin_tl_pdu[6] = 0x00U;
+                lin_tl_pdu[7] = 0x00U;
 
                 ld_put_raw(iii, lin_tl_pdu);
                 tl_desc_ptr->diag_state = LD_DIAG_TX_PHY;
@@ -1540,10 +1540,10 @@ void lin_communication_ctrl(l_ifc_handle iii)
                 lin_tl_pdu[1] = 0x02;
                 lin_tl_pdu[2] = 0x68; //肯定响应 0x28 + 0x40
                 lin_tl_pdu[3] = sub_func_id;
-                lin_tl_pdu[4] = 0xFFU;
-                lin_tl_pdu[5] = 0xFFU;
-                lin_tl_pdu[6] = 0xFFU;
-                lin_tl_pdu[7] = 0xFFU;
+                lin_tl_pdu[4] = 0x00U;
+                lin_tl_pdu[5] = 0x00U;
+                lin_tl_pdu[6] = 0x00U;
+                lin_tl_pdu[7] = 0x00U;
 
                 ld_put_raw(iii, lin_tl_pdu);
                 tl_desc_ptr->diag_state = LD_DIAG_TX_PHY;
@@ -1569,10 +1569,10 @@ void lin_communication_ctrl(l_ifc_handle iii)
                 lin_tl_pdu[1] = 0x02;
                 lin_tl_pdu[2] = 0x68; //肯定响应 0x28 + 0x40
                 lin_tl_pdu[3] = sub_func_id;
-                lin_tl_pdu[4] = 0xFFU;
-                lin_tl_pdu[5] = 0xFFU;
-                lin_tl_pdu[6] = 0xFFU;
-                lin_tl_pdu[7] = 0xFFU;
+                lin_tl_pdu[4] = 0x00U;
+                lin_tl_pdu[5] = 0x00U;
+                lin_tl_pdu[6] = 0x00U;
+                lin_tl_pdu[7] = 0x00U;
 
                 ld_put_raw(iii, lin_tl_pdu);
                 tl_desc_ptr->diag_state = LD_DIAG_TX_PHY;
@@ -1624,10 +1624,10 @@ void lin_tester_present(l_ifc_handle iii)
                 lin_tl_pdu[1] = 0x02;
                 lin_tl_pdu[2] = 0x7E; //肯定响应 0x3E + 0x40
                 lin_tl_pdu[3] = sub_func_id;
-                lin_tl_pdu[4] = 0xFFU;
-                lin_tl_pdu[5] = 0xFFU;
-                lin_tl_pdu[6] = 0xFFU;
-                lin_tl_pdu[7] = 0xFFU;
+                lin_tl_pdu[4] = 0x00U;
+                lin_tl_pdu[5] = 0x00U;
+                lin_tl_pdu[6] = 0x00U;
+                lin_tl_pdu[7] = 0x00U;
 
                 ld_put_raw(iii, lin_tl_pdu);
                 tl_desc_ptr->diag_state = LD_DIAG_TX_PHY;
@@ -1694,7 +1694,7 @@ void lin_read_data_by_identify(l_ifc_handle iii)
             lin_tl_pdu[4] = 0x30;
             lin_tl_pdu[5] = 0x2E;
             lin_tl_pdu[6] = 0x30;
-            lin_tl_pdu[7] = 0x32;
+            lin_tl_pdu[7] = 0x33;
 
             ld_put_raw(iii, lin_tl_pdu);
             tl_desc_ptr->diag_state = LD_DIAG_TX_PHY;
@@ -1776,7 +1776,7 @@ void lin_read_data_by_identify(l_ifc_handle iii)
             lin_tl_pdu[4] = 0x30;
             lin_tl_pdu[5] = 0x2e;
             lin_tl_pdu[6] = 0x30;
-            lin_tl_pdu[7] = 0x32;
+            lin_tl_pdu[7] = 0x33;
 
             ld_put_raw(iii, lin_tl_pdu);
             tl_desc_ptr->diag_state = LD_DIAG_TX_PHY;
@@ -2156,7 +2156,7 @@ void lin_read_data_by_identify(l_ifc_handle iii)
             lin_tl_pdu[4] = 0x30;
             lin_tl_pdu[5] = 0x2e;
             lin_tl_pdu[6] = 0x30;
-            lin_tl_pdu[7] = 0x32;
+            lin_tl_pdu[7] = 0x33;
 
             ld_put_raw(iii, lin_tl_pdu);
             tl_desc_ptr->diag_state = LD_DIAG_TX_PHY;
@@ -2319,9 +2319,9 @@ void lin_write_data_by_identify(l_ifc_handle iii)
             lin_tl_pdu[2] = (l_u8)(sid + RES_POSITIVE);
             lin_tl_pdu[3] = 0xF1;
             lin_tl_pdu[4] = 0x98;
-            lin_tl_pdu[5] = 0xFF;
-            lin_tl_pdu[6] = 0xFF;
-            lin_tl_pdu[7] = 0xFF;
+            lin_tl_pdu[5] = 0x00U;
+            lin_tl_pdu[6] = 0x00U;
+            lin_tl_pdu[7] = 0x00U;
             ld_put_raw(iii, lin_tl_pdu);
             tl_desc_ptr->diag_state = LD_DIAG_TX_PHY;
         }
@@ -2352,9 +2352,9 @@ void lin_write_data_by_identify(l_ifc_handle iii)
             lin_tl_pdu[2] = (l_u8)(sid + RES_POSITIVE);
             lin_tl_pdu[3] = 0xF1;
             lin_tl_pdu[4] = 0x99;
-            lin_tl_pdu[5] = 0xFF;
-            lin_tl_pdu[6] = 0xFF;
-            lin_tl_pdu[7] = 0xFF;
+            lin_tl_pdu[5] = 0x00U;
+            lin_tl_pdu[6] = 0x00U;
+            lin_tl_pdu[7] = 0x00U;
             ld_put_raw(iii, lin_tl_pdu);
             tl_desc_ptr->diag_state = LD_DIAG_TX_PHY;
         }
@@ -2429,11 +2429,11 @@ void lin_clear_diag_info(l_ifc_handle iii)
         lin_tl_pdu[0] = *node_attr_ptr->configured_NAD_ptr;
         lin_tl_pdu[1] = 0x01;
         lin_tl_pdu[2] = 0x54; //肯定响应 0x14 + 0x40
-        lin_tl_pdu[3] = 0xFFU;
-        lin_tl_pdu[4] = 0xFFU;
-        lin_tl_pdu[5] = 0xFFU;
-        lin_tl_pdu[6] = 0xFFU;
-        lin_tl_pdu[7] = 0xFFU;
+        lin_tl_pdu[3] = 0x00U;
+        lin_tl_pdu[4] = 0x00U;
+        lin_tl_pdu[5] = 0x00U;
+        lin_tl_pdu[6] = 0x00U;
+        lin_tl_pdu[7] = 0x00U;
 
         ld_put_raw(iii, lin_tl_pdu);
         tl_desc_ptr->diag_state = LD_DIAG_TX_PHY;
@@ -2497,7 +2497,7 @@ void lin_routine_control(l_ifc_handle iii)
                 lin_tl_pdu[4] = 0x2U;
                 lin_tl_pdu[5] = 0x3U;
                 lin_tl_pdu[6] = 0x2U;
-                lin_tl_pdu[7] = 0xFFU;
+                lin_tl_pdu[7] = 0x00U;
                 ld_put_raw(iii, lin_tl_pdu);
                 tl_desc_ptr->diag_state = LD_DIAG_TX_PHY;
             }
@@ -2572,10 +2572,10 @@ void lin_transfer_data(l_ifc_handle iii)
         lin_tl_pdu[1] = 0x02; //数据长度
         lin_tl_pdu[2] = 0x76; //肯定响应 0x10 + 0x40
         lin_tl_pdu[3] = block_count;
-        lin_tl_pdu[4] = 0xff;
-        lin_tl_pdu[5] = 0xff;
-        lin_tl_pdu[6] = 0xff;
-        lin_tl_pdu[7] = 0xFF;
+        lin_tl_pdu[4] = 0x00U;
+        lin_tl_pdu[5] = 0x00U;
+        lin_tl_pdu[6] = 0x00U;
+        lin_tl_pdu[7] = 0x00U;
     }
     ld_put_raw(iii, lin_tl_pdu);
     tl_desc_ptr->diag_state = LD_DIAG_TX_PHY;
@@ -2622,10 +2622,10 @@ void control_dtc_setting(l_ifc_handle iii)
                 lin_tl_pdu[1] = 0x02;
                 lin_tl_pdu[2] = 0xC5;
                 lin_tl_pdu[3] = 0x1U;
-                lin_tl_pdu[4] = 0xFF;
-                lin_tl_pdu[5] = 0xFF;
-                lin_tl_pdu[6] = 0xFF;
-                lin_tl_pdu[7] = 0xFF;
+                lin_tl_pdu[4] = 0x00U;
+                lin_tl_pdu[5] = 0x00U;
+                lin_tl_pdu[6] = 0x00U;
+                lin_tl_pdu[7] = 0x00U;
 
                 ld_put_raw(iii, lin_tl_pdu);
                 tl_desc_ptr->diag_state = LD_DIAG_TX_PHY;
@@ -2639,10 +2639,10 @@ void control_dtc_setting(l_ifc_handle iii)
                 lin_tl_pdu[1] = 0x02;
                 lin_tl_pdu[2] = 0xC5;
                 lin_tl_pdu[3] = 0x2U;
-                lin_tl_pdu[4] = 0xFF;
-                lin_tl_pdu[5] = 0xFF;
-                lin_tl_pdu[6] = 0xFF;
-                lin_tl_pdu[7] = 0xFF;
+                lin_tl_pdu[4] = 0x00U;
+                lin_tl_pdu[5] = 0x00U;
+                lin_tl_pdu[6] = 0x00U;
+                lin_tl_pdu[7] = 0x00U;
 
                 ld_put_raw(iii, lin_tl_pdu);
                 tl_desc_ptr->diag_state = LD_DIAG_TX_PHY;
@@ -2961,9 +2961,9 @@ static void ld_make_slave_response_pdu(l_ifc_handle iii,
         lin_tl_pdu[2] = RES_NEGATIVE; /* SID */
         lin_tl_pdu[3] = sid;          /* D0 */
         lin_tl_pdu[4] = error_code;   /* D1 */
-        lin_tl_pdu[5] = 0xFFU;        /* D2 */
-        lin_tl_pdu[6] = 0xFFU;        /* D3 */
-        lin_tl_pdu[7] = 0xFFU;        /* D4 */
+        lin_tl_pdu[5] = 0x00U;        /* D2 */
+        lin_tl_pdu[6] = 0x00U;        /* D3 */
+        lin_tl_pdu[7] = 0x00U;        /* D4 */
 
         switch (sid)
         {
