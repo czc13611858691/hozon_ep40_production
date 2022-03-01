@@ -36,6 +36,7 @@ void motor_shake_cb(void)
 
 void __attribute__((optimize("O0"))) lin_go_to_sleep(void)
 {
+	uint16_t sleep_cnt;
 	LIN_EN_set_level(0);
 
 	Disable_global_interrupt();
@@ -44,4 +45,12 @@ void __attribute__((optimize("O0"))) lin_go_to_sleep(void)
 
 	LIN_TX_SET_DIR(PORT_DIR_OUT);
 	LIN_TX_SET_LEVEL(false);
+	
+	for (sleep_cnt = 0; sleep_cnt < 10000; sleep_cnt++);
+	for (sleep_cnt = 0; sleep_cnt < 10000; sleep_cnt++);
+
+	USART_0_init();
+
+	LIN_EN_set_level(1);
+	Enable_global_interrupt();
 }
