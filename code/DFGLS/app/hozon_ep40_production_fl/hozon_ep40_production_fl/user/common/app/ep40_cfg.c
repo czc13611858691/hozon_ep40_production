@@ -528,16 +528,15 @@ void window_task_prototype(window_obj_t* _window_obj_ptr, uint8_t btn_a_index, u
         {
             if (window_obj_ptr->slide_pos > (window_obj_ptr->slide_pos_first + 100))
             {
+                window_ptr->long_flg = 1;
+                window_ptr->slide_1_to_2_flg = 1;
                 if (window_obj_ptr->ticks >= (LONG_PRESS_DELTA / WINDOW_TICK_UNIT_MS))
                 {
-                    window_ptr->long_flg = 1;
-                    window_ptr->slide_1_to_2_flg = 1;
                     window_obj_ptr->status = 5;
                 }
                 if (get_scroller_state(0) == 0)
                 {
                     window_ptr->long_flg = 0;
-                    window_ptr->slide_1_to_2_flg = 1;
                     window_obj_ptr->status = 5;
                 }
             }
@@ -546,16 +545,15 @@ void window_task_prototype(window_obj_t* _window_obj_ptr, uint8_t btn_a_index, u
         {
             if ((window_obj_ptr->slide_pos + 100) < window_obj_ptr->slide_pos_first)
             {
+                window_ptr->long_flg = 1;
+                window_ptr->slide_2_to_1_flg = 1;
                 if (window_obj_ptr->ticks >= (LONG_PRESS_DELTA / WINDOW_TICK_UNIT_MS))
                 {
-                    window_ptr->long_flg = 1;
-                    window_ptr->slide_2_to_1_flg = 1;
                     window_obj_ptr->status = 5;
                 }
                 if (get_scroller_state(0) == 0)
                 {
                     window_ptr->long_flg = 0;
-                    window_ptr->slide_2_to_1_flg = 1;
                     window_obj_ptr->status = 5;
                 }
             }
@@ -564,31 +562,29 @@ void window_task_prototype(window_obj_t* _window_obj_ptr, uint8_t btn_a_index, u
         {
             if (window_obj_ptr->slide_pos > (window_obj_ptr->slide_pos_first + 100))
             {
+                window_ptr->long_flg = 1;
+                window_ptr->slide_1_to_2_flg = 1;
                 if (window_obj_ptr->ticks >= (LONG_PRESS_DELTA / WINDOW_TICK_UNIT_MS))
                 {
-                    window_ptr->long_flg = 1;
-                    window_ptr->slide_1_to_2_flg = 1;
                     window_obj_ptr->status = 5;
                 }
                 if (get_scroller_state(0) == 0)
                 {
                     window_ptr->long_flg = 0;
-                    window_ptr->slide_1_to_2_flg = 1;
                     window_obj_ptr->status = 5;
                 }
             }
             else if ((window_obj_ptr->slide_pos + 100) < window_obj_ptr->slide_pos_first)
             {
+                window_ptr->long_flg = 1;
+                window_ptr->slide_2_to_1_flg = 1;
                 if (window_obj_ptr->ticks >= (LONG_PRESS_DELTA / WINDOW_TICK_UNIT_MS))
                 {
-                    window_ptr->long_flg = 1;
-                    window_ptr->slide_2_to_1_flg = 1;
                     window_obj_ptr->status = 5;
                 }
                 if (get_scroller_state(0) == 0)
                 {
                     window_ptr->long_flg = 0;
-                    window_ptr->slide_2_to_1_flg = 1;
                     window_obj_ptr->status = 5;
                 }
             }
@@ -751,16 +747,15 @@ void window_task_prototype(window_obj_t* _window_obj_ptr, uint8_t btn_a_index, u
         {
             if (window_obj_ptr->slide_pos > (window_obj_ptr->slide_pos_first + 100))
             {
+                window_ptr->long_flg = 1;
+                window_ptr->slide_1_to_2_flg = 1;
                 if (window_obj_ptr->ticks >= (LONG_PRESS_DELTA / WINDOW_TICK_UNIT_MS))
                 {
-                    window_ptr->long_flg = 1;
-                    window_ptr->slide_1_to_2_flg = 1;
                     window_obj_ptr->status = 5;
                 }
                 if (get_scroller_state(1) == 0)
                 {
                     window_ptr->long_flg = 0;
-                    window_ptr->slide_1_to_2_flg = 1;
                     window_obj_ptr->status = 5;
                 }
             }
@@ -769,16 +764,15 @@ void window_task_prototype(window_obj_t* _window_obj_ptr, uint8_t btn_a_index, u
         {
             if ((window_obj_ptr->slide_pos + 100) < window_obj_ptr->slide_pos_first)
             {
+                window_ptr->long_flg = 1;
+                window_ptr->slide_2_to_1_flg = 1;
                 if (window_obj_ptr->ticks >= (LONG_PRESS_DELTA / WINDOW_TICK_UNIT_MS))
                 {
-                    window_ptr->long_flg = 1;
-                    window_ptr->slide_2_to_1_flg = 1;
                     window_obj_ptr->status = 5;
                 }
                 if (get_scroller_state(1) == 0)
                 {
                     window_ptr->long_flg = 0;
-                    window_ptr->slide_2_to_1_flg = 1;
                     window_obj_ptr->status = 5;
                 }
             }
@@ -787,31 +781,29 @@ void window_task_prototype(window_obj_t* _window_obj_ptr, uint8_t btn_a_index, u
         {
             if (window_obj_ptr->slide_pos > (window_obj_ptr->slide_pos_first + 100))
             {
+                window_ptr->long_flg = 1;
+                window_ptr->slide_1_to_2_flg = 1;
                 if (window_obj_ptr->ticks >= (LONG_PRESS_DELTA / WINDOW_TICK_UNIT_MS))
                 {
-                    window_ptr->long_flg = 1;
-                    window_ptr->slide_1_to_2_flg = 1;
                     window_obj_ptr->status = 5;
                 }
                 if (get_scroller_state(1) == 0)
                 {
                     window_ptr->long_flg = 0;
-                    window_ptr->slide_1_to_2_flg = 1;
                     window_obj_ptr->status = 5;
                 }
             }
             else if ((window_obj_ptr->slide_pos + 100) < window_obj_ptr->slide_pos_first)
             {
+                window_ptr->long_flg = 1;
+                window_ptr->slide_2_to_1_flg = 1;
                 if (window_obj_ptr->ticks >= (LONG_PRESS_DELTA / WINDOW_TICK_UNIT_MS))
                 {
-                    window_ptr->long_flg = 1;
-                    window_ptr->slide_2_to_1_flg = 1;
                     window_obj_ptr->status = 5;
                 }
                 if (get_scroller_state(1) == 0)
                 {
                     window_ptr->long_flg = 0;
-                    window_ptr->slide_2_to_1_flg = 1;
                     window_obj_ptr->status = 5;
                 }
             }

@@ -326,7 +326,7 @@ void soft_timer_window_task(void)
             window_ptr->btn_a_cap_trig_flg = 1;
         }
 
-#if 0
+#if 1
         if (window_obj_ptr->btn_a_status == 0)
         {
             window_obj_ptr->status = 0;
@@ -354,7 +354,7 @@ void soft_timer_window_task(void)
             window_ptr->long_flg = 1;
             window_ptr->btn_b_cap_trig_flg = 1;
         }
-#if 0
+#if 1
         if (window_obj_ptr->btn_b_status == 0)
         {
             window_obj_ptr->status = 0;
@@ -381,6 +381,7 @@ void soft_timer_window_task(void)
     }
     else if (window_obj_ptr->status == 4)
     {
+#if 0
         if (window_obj_ptr->slide_pos_first < 100)
         {
             if (window_obj_ptr->slide_pos > (window_obj_ptr->slide_pos_first + 100))
@@ -414,7 +415,8 @@ void soft_timer_window_task(void)
                 window_obj_ptr->status = 5;
             }
         }
-#if 0
+#endif
+#if 1
         if (window_obj_ptr->slide_status == 0)
         {
             window_obj_ptr->status = 0;
