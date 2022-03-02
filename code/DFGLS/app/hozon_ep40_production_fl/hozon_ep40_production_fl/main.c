@@ -15,8 +15,6 @@ int main(void)
 {
 	atmel_start_init();
 
-	Enable_global_interrupt();
-
 	led_init();
 	adc_init();
 	
@@ -27,6 +25,8 @@ int main(void)
 	ld_init(LI0);
 
 	UDS_read_DID_from_eeprom();
+
+	Enable_global_interrupt();
 
 	while (1)
 	{

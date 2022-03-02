@@ -177,7 +177,7 @@ void state_mahine_run(state_obj_t *state_obj_ptr)
 /* 记录压力平均值 */
 void state_action_record_pinJun(state_obj_t *state_obj_ptr)
 {
-    double filt_val = 0.7;
+    double filt_val = 0;
     state_obj_ptr->adc_min = state_obj_ptr->adc_min * filt_val + (state_obj_ptr->adc_res) * (1 - filt_val);
 }
 

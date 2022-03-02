@@ -146,7 +146,13 @@ void soft_timer_touch_press_motor_task(void)
                 g_btn_state[i].adc_res = ADC_0_measurement[adc_res_index];
 
                 btn_status[i] = ((get_sensor_state(i) & 0x80) | (get_sensor_state(i + 3) & 0x80)) >> 7;
-                if (((get_sensor_state(i) & 0x80) >> 7) != 0)
+                if ((((get_sensor_state(i) & 0x80) >> 7) != 0) &&
+                    (((get_sensor_state(i + 3) & 0x80) >> 7) != 0)
+                    )
+                {
+                    g_btn_state[i].slide_trig_flg = 2;
+                }
+                else if (((get_sensor_state(i) & 0x80) >> 7) != 0)
                 {
                     g_btn_state[i].slide_trig_flg = 0;
                 }
@@ -160,7 +166,13 @@ void soft_timer_touch_press_motor_task(void)
 
             uint8_t slide_state = (get_scroller_state(0) | get_scroller_state(1));
             uint8_t slide_pos = 0;
-            if (get_scroller_state(0) != 0)
+            if ((get_scroller_state(0) != 0) &&
+                (get_scroller_state(1) != 0)
+                )
+            {
+                g_btn_state[SLIDE_1_DIR_TRIG].slide_trig_flg = 2;
+            }
+            else if (get_scroller_state(0) != 0)
             {
                 slide_pos = get_scroller_position(0);
                 g_btn_state[SLIDE_1_DIR_TRIG].slide_trig_flg = 1;

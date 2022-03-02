@@ -232,15 +232,15 @@ extern "C" {
 	}
 #define KEY_3_PARAMS                                                                                                   \
 	{                                                                                                                  \
-		20, HYST_25, AKS_GROUP_1                                                                                      \
+		20, HYST_25, AKS_GROUP_2                                                                                      \
 	}
 #define KEY_4_PARAMS                                                                                                   \
 	{                                                                                                                  \
-		20, HYST_25, AKS_GROUP_1                                                                                      \
+		20, HYST_25, AKS_GROUP_2                                                                                      \
 	}
 #define KEY_5_PARAMS                                                                                                   \
 	{                                                                                                                  \
-		20, HYST_25, AKS_GROUP_1                                                                                      \
+		20, HYST_25, AKS_GROUP_2                                                                                      \
 	}
 #define KEY_6_PARAMS                                                                                                   \
 	{                                                                                                                  \
@@ -272,45 +272,45 @@ extern "C" {
 	}
 #define KEY_13_PARAMS                                                                                                  \
 	{                                                                                                                  \
-		20, HYST_25, AKS_GROUP_1                                                                                       \
+		20, HYST_25, AKS_GROUP_2                                                                                       \
 	}
 #define KEY_14_PARAMS                                                                                                  \
 	{                                                                                                                  \
-		20, HYST_25, AKS_GROUP_1                                                                                       \
+		20, HYST_25, AKS_GROUP_2                                                                                       \
 	}
 #define KEY_15_PARAMS                                                                                                  \
 	{                                                                                                                  \
-		20, HYST_25, AKS_GROUP_1                                                                                       \
+		20, HYST_25, AKS_GROUP_2                                                                                       \
 	}
 #define KEY_16_PARAMS                                                                                                  \
 	{                                                                                                                  \
-		20, HYST_25, AKS_GROUP_1                                                                                       \
+		20, HYST_25, AKS_GROUP_2                                                                                       \
 	}
 #define KEY_17_PARAMS                                                                                                  \
 	{                                                                                                                  \
-		20, HYST_25, AKS_GROUP_1                                                                                       \
+		20, HYST_25, AKS_GROUP_2                                                                                       \
 	}
 #define KEY_18_PARAMS                                                                                                  \
 	{                                                                                                                  \
-		20, HYST_25, AKS_GROUP_1                                                                                       \
+		20, HYST_25, AKS_GROUP_2                                                                                       \
 	}
 #define KEY_19_PARAMS                                                                                                  \
 	{                                                                                                                  \
-		20, HYST_25, AKS_GROUP_1                                                                                       \
+		20, HYST_25, AKS_GROUP_2                                                                                       \
 	}
 
 /* De-bounce counter for additional measurements to confirm touch detection
  * Range: 0 to 255.
  * Default value: 4.
  */
-#define DEF_TOUCH_DET_INT 4
+#define DEF_TOUCH_DET_INT 0
 
 /* De-bounce counter for additional measurements to confirm away from touch signal
  * to initiate Away from touch re-calibration.
  * Range: 0 to 255.
  * Default value: 5.
  */
-#define DEF_ANTI_TCH_DET_INT 5
+#define DEF_ANTI_TCH_DET_INT 0
 
 /* Threshold beyond with automatic sensor recalibration is initiated.
  * Range: RECAL_100/ RECAL_50 / RECAL_25 / RECAL_12_5 / RECAL_6_25 / MAX_RECAL

@@ -11,7 +11,6 @@ typedef struct
 {
     uint8_t state_handle;
     uint8_t slide_trig_flg;//主驾特色，震动对应4个，信号对应8个
-
     uint8_t adc_res_index;
     uint32_t adc_res;
     uint32_t adc_min;

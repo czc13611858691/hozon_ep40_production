@@ -338,11 +338,11 @@ void left_window_signal_out_cb(uint8_t signal)
 
     if (rear_status == 0)
     {
-        lin_signal_send_x_times(LI0_DFGLS_FLWindowControl, 3, signal);
+        lin_signal_send_x_times(LI0_DFGLS_FLWindowControl, 1, signal);
     }
     else
     {
-        lin_signal_send_x_times(LI0_DFGLS_RLWindowControl, 3, signal);
+        lin_signal_send_x_times(LI0_DFGLS_RLWindowControl, 1, signal);
     }
 }
 
@@ -353,11 +353,11 @@ void right_window_signal_out_cb(uint8_t signal)
 
     if (rear_status == 0)
     {
-        lin_signal_send_x_times(LI0_DFGLS_FRWindowControl, 3, signal);
+        lin_signal_send_x_times(LI0_DFGLS_FRWindowControl, 1, signal);
     }
     else
     {
-        lin_signal_send_x_times(LI0_DFGLS_RRWindowControl, 3, signal);
+        lin_signal_send_x_times(LI0_DFGLS_RRWindowControl, 1, signal);
     }
 }
 void window_task_prototype(window_obj_t* _window_obj_ptr, uint8_t btn_a_index, uint8_t btn_b_index)
@@ -390,7 +390,7 @@ void window_task_prototype(window_obj_t* _window_obj_ptr, uint8_t btn_a_index, u
 
     if (press_status_a == 1)
     {
-        if (g_btn_state[btn_a_index].slide_trig_flg == 1)
+        if ((g_btn_state[btn_a_index].slide_trig_flg == 1) || (g_btn_state[btn_a_index].slide_trig_flg == 2))
         {
             window_ptr->btn_a_status = 1;
         }
@@ -405,7 +405,7 @@ void window_task_prototype(window_obj_t* _window_obj_ptr, uint8_t btn_a_index, u
 
     if (press_status_b == 1)
     {
-        if (g_btn_state[btn_b_index].slide_trig_flg == 1)
+        if ((g_btn_state[btn_b_index].slide_trig_flg == 1) || (g_btn_state[btn_b_index].slide_trig_flg == 2))
         {
             window_ptr->btn_b_status = 1;
         }
@@ -423,7 +423,7 @@ void window_task_prototype(window_obj_t* _window_obj_ptr, uint8_t btn_a_index, u
     {
         if (press_status_a == 1)
         {
-            if (g_btn_state[btn_a_index].slide_trig_flg == 1)
+            if ((g_btn_state[btn_a_index].slide_trig_flg == 1) || (g_btn_state[btn_a_index].slide_trig_flg == 2))
             {
                 window_obj_ptr->ticks = 0;
                 window_obj_ptr->status = 2;
@@ -436,15 +436,23 @@ void window_task_prototype(window_obj_t* _window_obj_ptr, uint8_t btn_a_index, u
         window_obj_ptr->ticks++;
         window_ptr->long_flg = 1;
         window_ptr->btn_a_cap_trig_flg = 1;
-        window_obj_ptr->status = 0;
 
-#if 0
-        if (window_obj_ptr->btn_a_status == 0)
+#if 1
+        if (window_ptr->btn_a_status == 0)
         {
             window_obj_ptr->status = 0;
-            window_ptr->long_flg = 0;
             window_ptr->btn_a_cap_trig_flg = 1;
+            if (window_obj_ptr->ticks >= (LONG_PRESS_DELTA / WINDOW_TICK_UNIT_MS))
+            {
+                window_ptr->long_flg = 1;
+            }
+            else {
+                window_ptr->long_flg = 0;
+            }
+            window_obj_ptr->ticks = 0;
         }
+#else /* 手动挡自动挡评审样件 */
+        window_obj_ptr->status = 0;
 #endif
     }
 
@@ -452,7 +460,7 @@ void window_task_prototype(window_obj_t* _window_obj_ptr, uint8_t btn_a_index, u
     {
         if (press_status_b == 1)
         {
-            if (g_btn_state[btn_b_index].slide_trig_flg == 1)
+            if ((g_btn_state[btn_b_index].slide_trig_flg == 1) || (g_btn_state[btn_b_index].slide_trig_flg == 2))
             {
                 window_obj_ptr->ticks = 0;
                 window_obj_ptr->status = 3;
@@ -465,20 +473,27 @@ void window_task_prototype(window_obj_t* _window_obj_ptr, uint8_t btn_a_index, u
         window_obj_ptr->ticks++;
         window_ptr->long_flg = 1;
         window_ptr->btn_b_cap_trig_flg = 1;
-        window_obj_ptr->status = 0;
-
-#if 0
-        if (window_obj_ptr->btn_b_status == 0)
+#if 1
+        if (window_ptr->btn_b_status == 0)
         {
             window_obj_ptr->status = 0;
-            window_ptr->long_flg = 0;
             window_ptr->btn_b_cap_trig_flg = 1;
+            if (window_obj_ptr->ticks >= (LONG_PRESS_DELTA / WINDOW_TICK_UNIT_MS))
+            {
+                window_ptr->long_flg = 1;
+            }
+            else {
+                window_ptr->long_flg = 0;
+            }
+            window_obj_ptr->ticks = 0;
         }
+#else /* 手动挡自动挡评审样件 */
+        window_obj_ptr->status = 0;
 #endif
     }
 
     window_obj_ptr->slide_status_last = window_obj_ptr->slide_status;
-    if (g_btn_state[SLIDE_1_DIR_TRIG].slide_trig_flg == 1)
+    if ((g_btn_state[SLIDE_1_DIR_TRIG].slide_trig_flg == 1) || (g_btn_state[SLIDE_1_DIR_TRIG].slide_trig_flg == 2))
     {
         window_obj_ptr->slide_status = g_btn_state[SLIDE_1_DIR_TRIG].state_handle;
     }
@@ -500,6 +515,11 @@ void window_task_prototype(window_obj_t* _window_obj_ptr, uint8_t btn_a_index, u
     }
     else if (window_obj_ptr->status == 4)
     {
+#if 1
+        window_obj_ptr->ticks++;
+#else /* 自动挡手动挡评审样件 */
+
+#endif
         if (get_scroller_state(0) == 0)
         {
             window_obj_ptr->status = 0;
@@ -508,33 +528,69 @@ void window_task_prototype(window_obj_t* _window_obj_ptr, uint8_t btn_a_index, u
         {
             if (window_obj_ptr->slide_pos > (window_obj_ptr->slide_pos_first + 100))
             {
-                window_ptr->long_flg = 0;
-                window_ptr->slide_1_to_2_flg = 1;
-                window_obj_ptr->status = 5;
+                if (window_obj_ptr->ticks >= (LONG_PRESS_DELTA / WINDOW_TICK_UNIT_MS))
+                {
+                    window_ptr->long_flg = 1;
+                    window_ptr->slide_1_to_2_flg = 1;
+                    window_obj_ptr->status = 5;
+                }
+                if (get_scroller_state(0) == 0)
+                {
+                    window_ptr->long_flg = 0;
+                    window_ptr->slide_1_to_2_flg = 1;
+                    window_obj_ptr->status = 5;
+                }
             }
         }
         else if (window_obj_ptr->slide_pos_first > 150)
         {
             if ((window_obj_ptr->slide_pos + 100) < window_obj_ptr->slide_pos_first)
             {
-                window_ptr->long_flg = 0;
-                window_ptr->slide_2_to_1_flg = 1;
-                window_obj_ptr->status = 5;
+                if (window_obj_ptr->ticks >= (LONG_PRESS_DELTA / WINDOW_TICK_UNIT_MS))
+                {
+                    window_ptr->long_flg = 1;
+                    window_ptr->slide_2_to_1_flg = 1;
+                    window_obj_ptr->status = 5;
+                }
+                if (get_scroller_state(0) == 0)
+                {
+                    window_ptr->long_flg = 0;
+                    window_ptr->slide_2_to_1_flg = 1;
+                    window_obj_ptr->status = 5;
+                }
             }
         }
         else
         {
             if (window_obj_ptr->slide_pos > (window_obj_ptr->slide_pos_first + 100))
             {
-                window_ptr->long_flg = 0;
-                window_ptr->slide_1_to_2_flg = 1;
-                window_obj_ptr->status = 5;
+                if (window_obj_ptr->ticks >= (LONG_PRESS_DELTA / WINDOW_TICK_UNIT_MS))
+                {
+                    window_ptr->long_flg = 1;
+                    window_ptr->slide_1_to_2_flg = 1;
+                    window_obj_ptr->status = 5;
+                }
+                if (get_scroller_state(0) == 0)
+                {
+                    window_ptr->long_flg = 0;
+                    window_ptr->slide_1_to_2_flg = 1;
+                    window_obj_ptr->status = 5;
+                }
             }
             else if ((window_obj_ptr->slide_pos + 100) < window_obj_ptr->slide_pos_first)
             {
-                window_ptr->long_flg = 0;
-                window_ptr->slide_2_to_1_flg = 1;
-                window_obj_ptr->status = 5;
+                if (window_obj_ptr->ticks >= (LONG_PRESS_DELTA / WINDOW_TICK_UNIT_MS))
+                {
+                    window_ptr->long_flg = 1;
+                    window_ptr->slide_2_to_1_flg = 1;
+                    window_obj_ptr->status = 5;
+                }
+                if (get_scroller_state(0) == 0)
+                {
+                    window_ptr->long_flg = 0;
+                    window_ptr->slide_2_to_1_flg = 1;
+                    window_obj_ptr->status = 5;
+                }
             }
         }
     }
@@ -557,7 +613,7 @@ void window_task_prototype(window_obj_t* _window_obj_ptr, uint8_t btn_a_index, u
 
     if (press_status_a == 1)
     {
-        if (g_btn_state[btn_a_index].slide_trig_flg == 0)
+        if ((g_btn_state[btn_a_index].slide_trig_flg == 0) || (g_btn_state[btn_a_index].slide_trig_flg == 2))
         {
             window_ptr->btn_a_status = 1;
         }
@@ -572,7 +628,7 @@ void window_task_prototype(window_obj_t* _window_obj_ptr, uint8_t btn_a_index, u
 
     if (press_status_b == 1)
     {
-        if (g_btn_state[btn_b_index].slide_trig_flg == 0)
+        if ((g_btn_state[btn_b_index].slide_trig_flg == 0) || (g_btn_state[btn_b_index].slide_trig_flg == 2))
         {
             window_ptr->btn_b_status = 1;
         }
@@ -590,7 +646,7 @@ void window_task_prototype(window_obj_t* _window_obj_ptr, uint8_t btn_a_index, u
     {
         if (press_status_a == 1)
         {
-            if (g_btn_state[btn_a_index].slide_trig_flg == 0)
+            if ((g_btn_state[btn_a_index].slide_trig_flg == 0) || (g_btn_state[btn_a_index].slide_trig_flg == 2))
             {
                 window_obj_ptr->ticks = 0;
                 window_obj_ptr->status = 2;
@@ -603,15 +659,23 @@ void window_task_prototype(window_obj_t* _window_obj_ptr, uint8_t btn_a_index, u
         window_obj_ptr->ticks++;
         window_ptr->long_flg = 1;
         window_ptr->btn_a_cap_trig_flg = 1;
-        window_obj_ptr->status = 0;
 
-#if 0
-        if (window_obj_ptr->btn_a_status == 0)
+#if 1
+        if (window_ptr->btn_a_status == 0)
         {
             window_obj_ptr->status = 0;
-            window_ptr->long_flg = 0;
             window_ptr->btn_a_cap_trig_flg = 1;
+            if (window_obj_ptr->ticks >= (LONG_PRESS_DELTA / WINDOW_TICK_UNIT_MS))
+            {
+                window_ptr->long_flg = 1;
+            }
+            else {
+                window_ptr->long_flg = 0;
+            }
+            window_obj_ptr->ticks = 0;
         }
+#else /* 手动挡自动挡评审样件 */
+        window_obj_ptr->status = 0;
 #endif
     }
 
@@ -619,7 +683,7 @@ void window_task_prototype(window_obj_t* _window_obj_ptr, uint8_t btn_a_index, u
     {
         if (press_status_b == 1)
         {
-            if (g_btn_state[btn_b_index].slide_trig_flg == 0)
+            if ((g_btn_state[btn_b_index].slide_trig_flg == 0) || (g_btn_state[btn_b_index].slide_trig_flg == 2))
             {
                 window_obj_ptr->ticks = 0;
                 window_obj_ptr->status = 3;
@@ -632,20 +696,27 @@ void window_task_prototype(window_obj_t* _window_obj_ptr, uint8_t btn_a_index, u
         window_obj_ptr->ticks++;
         window_ptr->long_flg = 1;
         window_ptr->btn_b_cap_trig_flg = 1;
-        window_obj_ptr->status = 0;
-
-#if 0
-        if (window_obj_ptr->btn_b_status == 0)
+#if 1
+        if (window_ptr->btn_b_status == 0)
         {
             window_obj_ptr->status = 0;
-            window_ptr->long_flg = 0;
             window_ptr->btn_b_cap_trig_flg = 1;
+            if (window_obj_ptr->ticks >= (LONG_PRESS_DELTA / WINDOW_TICK_UNIT_MS))
+            {
+                window_ptr->long_flg = 1;
+            }
+            else {
+                window_ptr->long_flg = 0;
+            }
+            window_obj_ptr->ticks = 0;
         }
+#else /* 手动挡自动挡评审样件 */
+        window_obj_ptr->status = 0;
 #endif
     }
 
     window_obj_ptr->slide_status_last = window_obj_ptr->slide_status;
-    if (g_btn_state[SLIDE_1_DIR_TRIG].slide_trig_flg == 0)
+    if ((g_btn_state[SLIDE_1_DIR_TRIG].slide_trig_flg == 0) || (g_btn_state[SLIDE_1_DIR_TRIG].slide_trig_flg == 2))
     {
         window_obj_ptr->slide_status = g_btn_state[SLIDE_1_DIR_TRIG].state_handle;
     }
@@ -667,6 +738,11 @@ void window_task_prototype(window_obj_t* _window_obj_ptr, uint8_t btn_a_index, u
     }
     else if (window_obj_ptr->status == 4)
     {
+#if 1
+        window_obj_ptr->ticks++;
+#else /* 自动挡手动挡评审样件 */
+
+#endif
         if (get_scroller_state(1) == 0)
         {
             window_obj_ptr->status = 0;
@@ -675,98 +751,71 @@ void window_task_prototype(window_obj_t* _window_obj_ptr, uint8_t btn_a_index, u
         {
             if (window_obj_ptr->slide_pos > (window_obj_ptr->slide_pos_first + 100))
             {
-                window_ptr->long_flg = 0;
-                window_ptr->slide_1_to_2_flg = 1;
-                window_obj_ptr->status = 5;
+                if (window_obj_ptr->ticks >= (LONG_PRESS_DELTA / WINDOW_TICK_UNIT_MS))
+                {
+                    window_ptr->long_flg = 1;
+                    window_ptr->slide_1_to_2_flg = 1;
+                    window_obj_ptr->status = 5;
+                }
+                if (get_scroller_state(1) == 0)
+                {
+                    window_ptr->long_flg = 0;
+                    window_ptr->slide_1_to_2_flg = 1;
+                    window_obj_ptr->status = 5;
+                }
             }
         }
         else if (window_obj_ptr->slide_pos_first > 150)
         {
             if ((window_obj_ptr->slide_pos + 100) < window_obj_ptr->slide_pos_first)
             {
-                window_ptr->long_flg = 0;
-                window_ptr->slide_2_to_1_flg = 1;
-                window_obj_ptr->status = 5;
+                if (window_obj_ptr->ticks >= (LONG_PRESS_DELTA / WINDOW_TICK_UNIT_MS))
+                {
+                    window_ptr->long_flg = 1;
+                    window_ptr->slide_2_to_1_flg = 1;
+                    window_obj_ptr->status = 5;
+                }
+                if (get_scroller_state(1) == 0)
+                {
+                    window_ptr->long_flg = 0;
+                    window_ptr->slide_2_to_1_flg = 1;
+                    window_obj_ptr->status = 5;
+                }
             }
         }
         else
         {
             if (window_obj_ptr->slide_pos > (window_obj_ptr->slide_pos_first + 100))
             {
-                window_ptr->long_flg = 0;
-                window_ptr->slide_1_to_2_flg = 1;
-                window_obj_ptr->status = 5;
-            }
-            else if ((window_obj_ptr->slide_pos + 100) < window_obj_ptr->slide_pos_first)
-            {
-                window_ptr->long_flg = 0;
-                window_ptr->slide_2_to_1_flg = 1;
-                window_obj_ptr->status = 5;
-            }
-        }
-#if 0
-        if (window_obj_ptr->slide_status == 0)
-        {
-            window_obj_ptr->status = 0;
-            if (window_obj_ptr->slide_pos_first < 100)
-            {
-                if (window_obj_ptr->slide_pos > 150)
+                if (window_obj_ptr->ticks >= (LONG_PRESS_DELTA / WINDOW_TICK_UNIT_MS))
+                {
+                    window_ptr->long_flg = 1;
+                    window_ptr->slide_1_to_2_flg = 1;
+                    window_obj_ptr->status = 5;
+                }
+                if (get_scroller_state(1) == 0)
                 {
                     window_ptr->long_flg = 0;
                     window_ptr->slide_1_to_2_flg = 1;
+                    window_obj_ptr->status = 5;
                 }
             }
-            else if (window_obj_ptr->slide_pos_first > 150)
+            else if ((window_obj_ptr->slide_pos + 100) < window_obj_ptr->slide_pos_first)
             {
-                if (window_obj_ptr->slide_pos < 100)
+                if (window_obj_ptr->ticks >= (LONG_PRESS_DELTA / WINDOW_TICK_UNIT_MS))
+                {
+                    window_ptr->long_flg = 1;
+                    window_ptr->slide_2_to_1_flg = 1;
+                    window_obj_ptr->status = 5;
+                }
+                if (get_scroller_state(1) == 0)
                 {
                     window_ptr->long_flg = 0;
                     window_ptr->slide_2_to_1_flg = 1;
+                    window_obj_ptr->status = 5;
                 }
             }
         }
-        else
-        {
-            window_obj_ptr->ticks++;
-            if (window_obj_ptr->slide_status != 0)
-            {
-                if (window_obj_ptr->slide_pos_first < 100)
-                {
-                    if (window_obj_ptr->slide_pos > 150)
-                    {
-                        if (window_obj_ptr->ticks >= (LONG_PRESS_DELTA / WINDOW_TICK_UNIT_MS))
-                        {
-                            window_ptr->slide_1_to_2_flg = 1;
-                            window_obj_ptr->status = 5;
-                            window_ptr->long_flg = 1;
-                        }
-                        else
-                        {
-                            window_ptr->slide_1_to_2_flg = 1;
-                            window_ptr->long_flg = 1;
-                        }
-                    }
-                }
-                else if (window_obj_ptr->slide_pos_first > 150)
-                {
-                    if (window_obj_ptr->slide_pos < 100)
-                    {
-                        if (window_obj_ptr->ticks >= (LONG_PRESS_DELTA / WINDOW_TICK_UNIT_MS))
-                        {
-                            window_obj_ptr->status = 5;
-                            window_ptr->long_flg = 1;
-                            window_ptr->slide_2_to_1_flg = 1;
-                        }
-                        else
-                        {
-                            window_ptr->long_flg = 1;
-                            window_ptr->slide_2_to_1_flg = 1;
-                        }
-                    }
-                }
-            }
-        }
-#endif
     }
     else if (window_obj_ptr->status == 5)
     {
