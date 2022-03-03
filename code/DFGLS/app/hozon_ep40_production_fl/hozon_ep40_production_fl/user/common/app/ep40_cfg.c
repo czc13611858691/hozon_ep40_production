@@ -530,7 +530,7 @@ void window_task_prototype(window_obj_t* _window_obj_ptr, uint8_t btn_a_index, u
             {
                 window_ptr->long_flg = 1;
                 window_ptr->slide_1_to_2_flg = 1;
-                if (window_obj_ptr->ticks >= (LONG_PRESS_DELTA / WINDOW_TICK_UNIT_MS))
+                if (window_obj_ptr->ticks >= (LONG_SLIDE_DELTA / WINDOW_TICK_UNIT_MS))
                 {
                     window_obj_ptr->status = 5;
                 }
@@ -547,7 +547,7 @@ void window_task_prototype(window_obj_t* _window_obj_ptr, uint8_t btn_a_index, u
             {
                 window_ptr->long_flg = 1;
                 window_ptr->slide_2_to_1_flg = 1;
-                if (window_obj_ptr->ticks >= (LONG_PRESS_DELTA / WINDOW_TICK_UNIT_MS))
+                if (window_obj_ptr->ticks >= (LONG_SLIDE_DELTA / WINDOW_TICK_UNIT_MS))
                 {
                     window_obj_ptr->status = 5;
                 }
@@ -564,7 +564,7 @@ void window_task_prototype(window_obj_t* _window_obj_ptr, uint8_t btn_a_index, u
             {
                 window_ptr->long_flg = 1;
                 window_ptr->slide_1_to_2_flg = 1;
-                if (window_obj_ptr->ticks >= (LONG_PRESS_DELTA / WINDOW_TICK_UNIT_MS))
+                if (window_obj_ptr->ticks >= (LONG_SLIDE_DELTA / WINDOW_TICK_UNIT_MS))
                 {
                     window_obj_ptr->status = 5;
                 }
@@ -578,7 +578,7 @@ void window_task_prototype(window_obj_t* _window_obj_ptr, uint8_t btn_a_index, u
             {
                 window_ptr->long_flg = 1;
                 window_ptr->slide_2_to_1_flg = 1;
-                if (window_obj_ptr->ticks >= (LONG_PRESS_DELTA / WINDOW_TICK_UNIT_MS))
+                if (window_obj_ptr->ticks >= (LONG_SLIDE_DELTA / WINDOW_TICK_UNIT_MS))
                 {
                     window_obj_ptr->status = 5;
                 }
@@ -749,7 +749,7 @@ void window_task_prototype(window_obj_t* _window_obj_ptr, uint8_t btn_a_index, u
             {
                 window_ptr->long_flg = 1;
                 window_ptr->slide_1_to_2_flg = 1;
-                if (window_obj_ptr->ticks >= (LONG_PRESS_DELTA / WINDOW_TICK_UNIT_MS))
+                if (window_obj_ptr->ticks >= (LONG_SLIDE_DELTA / WINDOW_TICK_UNIT_MS))
                 {
                     window_obj_ptr->status = 5;
                 }
@@ -766,7 +766,7 @@ void window_task_prototype(window_obj_t* _window_obj_ptr, uint8_t btn_a_index, u
             {
                 window_ptr->long_flg = 1;
                 window_ptr->slide_2_to_1_flg = 1;
-                if (window_obj_ptr->ticks >= (LONG_PRESS_DELTA / WINDOW_TICK_UNIT_MS))
+                if (window_obj_ptr->ticks >= (LONG_SLIDE_DELTA / WINDOW_TICK_UNIT_MS))
                 {
                     window_obj_ptr->status = 5;
                 }
@@ -783,7 +783,7 @@ void window_task_prototype(window_obj_t* _window_obj_ptr, uint8_t btn_a_index, u
             {
                 window_ptr->long_flg = 1;
                 window_ptr->slide_1_to_2_flg = 1;
-                if (window_obj_ptr->ticks >= (LONG_PRESS_DELTA / WINDOW_TICK_UNIT_MS))
+                if (window_obj_ptr->ticks >= (LONG_SLIDE_DELTA / WINDOW_TICK_UNIT_MS))
                 {
                     window_obj_ptr->status = 5;
                 }
@@ -797,7 +797,7 @@ void window_task_prototype(window_obj_t* _window_obj_ptr, uint8_t btn_a_index, u
             {
                 window_ptr->long_flg = 1;
                 window_ptr->slide_2_to_1_flg = 1;
-                if (window_obj_ptr->ticks >= (LONG_PRESS_DELTA / WINDOW_TICK_UNIT_MS))
+                if (window_obj_ptr->ticks >= (LONG_SLIDE_DELTA / WINDOW_TICK_UNIT_MS))
                 {
                     window_obj_ptr->status = 5;
                 }

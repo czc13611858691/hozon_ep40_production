@@ -6,6 +6,7 @@
 #include "lin_cfg.h"
 
 #define LONG_PRESS_DELTA 300
+#define LONG_SLIDE_DELTA 600
 
 #define ONE_TICK_UNIT_MS 20
 
