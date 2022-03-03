@@ -26,9 +26,9 @@
 #define BTN_A_DELTA_D2          380
 #define BTN_A_DELTA_D3          380
 
-#define BTN_B_DELTA_D1          400
-#define BTN_B_DELTA_D2          380
-#define BTN_B_DELTA_D3          380
+#define BTN_B_DELTA_D1          350
+#define BTN_B_DELTA_D2          315
+#define BTN_B_DELTA_D3          320
 
 #define BTN_SELF_DELTA_D1       400
 #define BTN_SELF_DELTA_D2       380
